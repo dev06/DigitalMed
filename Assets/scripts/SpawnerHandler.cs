@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿
+//Spawner for the game.
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,10 +35,12 @@ public class SpawnerHandler : MonoBehaviour {
 	{
 	}
 
+	//Method called when player hits a new checkpoint. 
 	void OnCheckpointHit()
 	{
 	}
 
+	//Add Ghost to the world with list of Vector2 path that it will follow
 	public void AddGhost(List<Vector2> path)
 	{
 		GameObject clone = Instantiate(playerPrefab) as GameObject; 

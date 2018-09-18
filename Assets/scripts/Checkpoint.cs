@@ -32,6 +32,7 @@ public class Checkpoint : MonoBehaviour {
 		GenerateCheckpointPosition(); 
 	}
 
+	// Generates new checkpoint in the world
 	private void GenerateCheckpointPosition()
 	{
 		float distance = Vector3.Distance(transform.position, movementHandler.transform.position); 

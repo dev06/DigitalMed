@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿
+// Ghost class. Resembles each ghost in the world
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +15,7 @@ public class Ghost : MonoBehaviour {
 
 	private TrailRenderer trail;
 
+	//Initalizes the ghost with the path
 	public void Init(List<Vector2> path)
 	{
 		trail = GetComponentInChildren<TrailRenderer>();
@@ -34,10 +38,9 @@ public class Ghost : MonoBehaviour {
 		transform.up = direction;
 		lastPosition = transform.position;
 		transform.position = Vector2.Lerp(transform.position, lerpPosition, Time.deltaTime * 10f);
-
-
 	}
 
+	//Tranverse the path
 	public void TraversePath()
 	{
 		if (path == null || (path != null && path.Count == 0)) { return; }
