@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour {
 
-	public List<Vector2> path = new List<Vector2>(); 
+	public List<Vector2> path = new List<Vector2>();
 
-	private Vector2 lerpPosition; 
+	private Vector2 lerpPosition;
 
-	private Vector2 lastPosition; 
+	private Vector2 lastPosition;
 
-	private TrailRenderer trail; 
+	private TrailRenderer trail;
 
 	public void Init(List<Vector2> path)
 	{
-		trail = GetComponentInChildren<TrailRenderer>(); 
-		trail.endWidth = 0f; 
+		trail = GetComponentInChildren<TrailRenderer>();
+		trail.endWidth = 0f;
 		SetPath(path);
-		TraversePath(); 
+		TraversePath();
 		transform.position = path[0];
-		lerpPosition = transform.position; 
+		trail.Clear();
+		lerpPosition = transform.position;
 	}
 
 	public void SetPath(List<Vector2> path)
 	{
-		this.path = path; 
+		this.path = path;
 	}
 
 	void Update()
@@ -32,36 +33,36 @@ public class Ghost : MonoBehaviour {
 		Vector2 direction = (Vector2)transform.position - (Vector2)lastPosition;
 		transform.up = direction;
 		lastPosition = transform.position;
-		transform.position = Vector2.Lerp(transform.position, lerpPosition, Time.deltaTime * 10f); 
-		
+		transform.position = Vector2.Lerp(transform.position, lerpPosition, Time.deltaTime * 10f);
+
 
 	}
 
 	public void TraversePath()
 	{
-		if(path == null || (path != null && path.Count == 0)) return; 
+		if (path == null || (path != null && path.Count == 0)) { return; }
 
-		StopCoroutine("ITravesePath"); 
-		StartCoroutine("ITravesePath"); 
+		StopCoroutine("ITravesePath");
+		StartCoroutine("ITravesePath");
 	}
 
 	IEnumerator ITravesePath()
 	{
 		int index = 0;
 
-		int direction = 1;  
-		
-		while(true)
-		{
-			lerpPosition = path[index]; 
-			
-			index+=direction; 
+		int direction = 1;
 
-			if(index >= path.Count - 1 || index <= 0)
+		while (true)
+		{
+			lerpPosition = path[index];
+
+			index += direction;
+
+			if (index >= path.Count - 1 || index <= 0)
 			{
-				direction*=-1;
+				direction *= -1;
 			}
-			yield return new WaitForSeconds(Time.deltaTime); 
+			yield return new WaitForSeconds(.022f);
 		}
 
 		StopCoroutine("ITravesePath");

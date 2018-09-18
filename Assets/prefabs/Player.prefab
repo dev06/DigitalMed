@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 212050129332643072}
   - component: {fileID: 61843583445395674}
   - component: {fileID: 50427167033999322}
-  - component: {fileID: 114092626175093104}
+  - component: {fileID: 114717380017453588}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Ghost
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4470603898671826
 Transform:
   m_ObjectHideFlags: 1
@@ -66,8 +66,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1657826998657706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.416, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 4470603898671826}
   m_Father: {fileID: 0}
@@ -116,7 +116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
 --- !u!96 &96463992212026798
 TrailRenderer:
@@ -153,10 +153,10 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.33
+  m_Time: 2
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.32
+    widthMultiplier: 1.5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -171,8 +171,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.32941177, g: 0.6392157, b: 1, a: 1}
+      key1: {r: 0.32941177, g: 0.6392157, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -199,13 +199,13 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 2
     alignment: 0
     textureMode: 0
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
---- !u!114 &114092626175093104
+--- !u!114 &114717380017453588
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -213,10 +213,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1657826998657706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27d74520aea55476194b0d6fea58a9de, type: 3}
+  m_Script: {fileID: 11500000, guid: 7656452ee5af34d3a81b1bd36144d1c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
 --- !u!212 &212050129332643072
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -251,8 +250,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f537cbbca91864e8a9b553fac83694aa, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.178}
+  m_Sprite: {fileID: 21300000, guid: f8afa7c511ef6c94cbbbb91055c9b187, type: 3}
+  m_Color: {r: 0.33088237, g: 0.6400609, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
