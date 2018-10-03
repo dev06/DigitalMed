@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
 
-	MovementHandler movementHandler;
+	PlayerMovement movementHandler;
 	
 	Vector3 targetPosition; 
 
 	void Start () 
 	{
-		movementHandler = FindObjectOfType<MovementHandler>(); 
+		movementHandler = FindObjectOfType<PlayerMovement>(); 
 		
 		targetPosition = transform.position; 
 	}
@@ -20,7 +20,7 @@ public class Checkpoint : MonoBehaviour {
 		transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f); 
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
+	void OnCollisionEnter(Collision col)
 	{
 		if(col.gameObject.tag != "Player") return; 
 
@@ -39,18 +39,14 @@ public class Checkpoint : MonoBehaviour {
 
 		do
 		{
-			float min = .5f - Random.Range(0f, .4f); 
-			float max = .5f + Random.Range(0f, .4f); 
-			float boundX = Random.Range(0, 2) == 0 ? min : max; 
-			float boundY = Random.Range(0, 2) == 0 ? min : max; 
-			float x = Camera.main.ViewportToWorldPoint(new Vector3(boundX, 0, 0)).x; 
-			float y = Camera.main.ViewportToWorldPoint(new Vector3(0, boundY, 0)).y; 
+			float x = Random.Range(-7, 7); 
+			float z = Random.Range(-7, 7);
 			
-			Vector3 genPosition = new Vector3(x, y, 0); 
+			Vector3 genPosition = new Vector3(x, 0, z); 
 
 			distance = Vector3.Distance(genPosition, movementHandler.transform.position); 
 
-			targetPosition = new Vector3(x, y, 0); 
+			targetPosition = new Vector3(x, 0, z); 
 
 		}while(distance < 5); 
 	}

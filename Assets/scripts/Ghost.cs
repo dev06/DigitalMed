@@ -7,37 +7,46 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour {
 
-	public List<Vector2> path = new List<Vector2>();
+	public List<Vector3> path = new List<Vector3>();
 
-	private Vector2 lerpPosition;
+	private Vector3 lerpPosition;
 
-	private Vector2 lastPosition;
+	private Vector3 lastPosition;
 
 	private TrailRenderer trail;
 
 	//Initalizes the ghost with the path
-	public void Init(List<Vector2> path)
+	public void Init(List<Vector3> path)
 	{
 		trail = GetComponentInChildren<TrailRenderer>();
 		trail.endWidth = 0f;
 		SetPath(path);
 		TraversePath();
-		transform.position = path[0];
 		trail.Clear();
+		transform.position = path[0];
 		lerpPosition = transform.position;
 	}
 
-	public void SetPath(List<Vector2> path)
+	public void SetPath(List<Vector3> path)
 	{
 		this.path = path;
 	}
 
 	void Update()
 	{
-		Vector2 direction = (Vector2)transform.position - (Vector2)lastPosition;
-		transform.up = direction;
+		transform.position = Vector3.Lerp(transform.position, lerpPosition, Time.deltaTime * 10f);
+	}
+
+	void LateUpdate()
+	{
+		Vector3 direction = transform.position - lastPosition; 
+		Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up); 
+		Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 10f); 
+		rot.x = 0; 
+		rot.z = 0; 
+		transform.rotation = rot; 
 		lastPosition = transform.position;
-		transform.position = Vector2.Lerp(transform.position, lerpPosition, Time.deltaTime * 10f);
+
 	}
 
 	//Tranverse the path

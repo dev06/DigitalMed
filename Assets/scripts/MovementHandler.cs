@@ -8,9 +8,9 @@ using UnityEngine;
 public class MovementHandler : MonoBehaviour 
 {
 
-	private Vector3 currentPosition, lastPosition;
+	private Vector2 currentPosition, lastPosition;
 	private float xPosition, yPosition;
-	private float senstivity = 250f;
+	private float senstivity = 10f;
 	private bool startedRecording;
 	private List<Vector2> recordingPosition = new List<Vector2>();
 	private bool hasPressedDown;
@@ -19,6 +19,7 @@ public class MovementHandler : MonoBehaviour
 	private Vector2 currentPoint;
 	private Vector2 lPosition;
 	private Vector2 _origPos;
+	private Camera mainCamera; 
 
 
 	void OnEnable()
@@ -32,11 +33,12 @@ public class MovementHandler : MonoBehaviour
 
 	void Start()
 	{
-		trail = GetComponentInChildren<TrailRenderer>();
-		trail.endWidth = 0;
+		//trail = GetComponentInChildren<TrailRenderer>();
+		//trail.endWidth = 0;
 		pointerDown = Vector2.zero;
 		currentPosition = Vector2.zero;
 		_origPos = (Vector2)transform.position;
+		mainCamera = Camera.main; 
 
 	}
 
@@ -54,14 +56,24 @@ public class MovementHandler : MonoBehaviour
 
 		recordingPosition.Clear();
 
-		SpawnerHandler.Instance.AddGhost(temp);
+		//SpawnerHandler.Instance.AddGhost(temp);
 
 		startedRecording = false;
 	}
 
 
 	void Update ()
-	{
+	{	
+		Vector3 targetPosition = transform.position + new Vector3(0, 0, -10f); 
+
+		mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, targetPosition, Time.deltaTime * 10f); 
+
+
+		if(Input.GetMouseButtonDown(0))
+		{
+			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition); 
+		}
+
 		if (!Input.GetMouseButton(0)) { return; }
 
 		Move();
@@ -75,55 +87,13 @@ public class MovementHandler : MonoBehaviour
 		}
 	}
 
-	//Moves the player
 	void Move()
 	{
-		currentPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		currentPosition = Camera.main.ScreenToViewportPoint(Input.mousePosition); 
 
-		if (Input.GetMouseButtonDown(0))
-		{
-			lastPosition = currentPosition;
-		}
+		Vector2 v = currentPosition - pointerDown;
 
-		float diffX = Mathf.Abs(currentPosition.x - lastPosition.x);
-		float diffY = Mathf.Abs(currentPosition.y - lastPosition.y);
-
-
-
-		diffX = Mathf.Clamp(diffX, 0f, 20f) * 8f;
-
-		diffY = Mathf.Clamp(diffY, 0f, 20f) * 8f;
-
-		if (currentPosition.x > lastPosition.x)
-		{
-			xPosition += Time.deltaTime * diffX * senstivity;
-		}
-		else if (currentPosition.x < lastPosition.x)
-		{
-			xPosition -= Time.deltaTime * diffX * senstivity;
-		}
-
-		if (currentPosition.y > lastPosition.y)
-		{
-
-			yPosition += Time.deltaTime * diffY * senstivity;
-		}
-		else if (currentPosition.y < lastPosition.y)
-		{
-			yPosition -= Time.deltaTime * diffY * senstivity;
-		}
-
-
-		float xMax = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0f)).x;
-		float xMin = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).x;
-
-		float yMax = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, 0f)).y;
-		float yMin = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, 0f)).y;
-
-
-		xPosition = Mathf.Clamp(xPosition, xMin, xMax);
-		yPosition = Mathf.Clamp(yPosition, yMin, yMax);
-		transform.position = new Vector3(xPosition, yPosition, 0);
+		v.Normalize(); 
 
 		if (!startedRecording)
 		{
@@ -132,7 +102,18 @@ public class MovementHandler : MonoBehaviour
 			startedRecording = true;
 		}
 
-		lastPosition = currentPosition;
+
+		transform.Translate(v * Time.deltaTime * senstivity, Space.World);
+
+		float xPos = transform.position.x; 
+		float yPos = transform.position.y; 
+
+		xPos = Mathf.Clamp(xPos, -10f, 10f); 
+		yPos = Mathf.Clamp(yPos, -10f, 10f); 
+
+		transform.position = new Vector2(xPos, yPos); 
+
+
 	}
 
 	//Records the player the Position
@@ -143,11 +124,12 @@ public class MovementHandler : MonoBehaviour
 		while (true)
 		{
 			recordingPosition.Add(transform.position);
+
 			yield return null;
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D col)
+	void OnCollisionEnter2D(Collision2D col)
 	{
 
 		if (col.gameObject.tag == "Ghost")
