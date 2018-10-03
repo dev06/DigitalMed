@@ -5,49 +5,53 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour {
 
 	PlayerMovement movementHandler;
-	
-	Vector3 targetPosition; 
 
-	void Start () 
+	Vector3 targetPosition;
+
+	private SpawnerHandler spawner;
+
+	void Start ()
 	{
-		movementHandler = FindObjectOfType<PlayerMovement>(); 
-		
-		targetPosition = transform.position; 
+		movementHandler = FindObjectOfType<PlayerMovement>();
+
+		spawner = FindOBjectOfType<SpawnerHandler>();
+
+		targetPosition = transform.position;
 	}
-	
+
 	void Update () {
-		
-		transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f); 
+
+		transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
-		if(col.gameObject.tag != "Player") return; 
+		if (col.gameObject.tag != "Player") { return; }
 
-		if(EventManager.OnCheckpointHit != null)
+		if (EventManager.OnCheckpointHit != null)
 		{
-			EventManager.OnCheckpointHit(); 
+			EventManager.OnCheckpointHit();
 		}
 
-		GenerateCheckpointPosition(); 
+		GenerateCheckpointPosition();
 	}
 
 	// Generates new checkpoint in the world
 	private void GenerateCheckpointPosition()
 	{
-		float distance = Vector3.Distance(transform.position, movementHandler.transform.position); 
+		float distance = Vector3.Distance(transform.position, movementHandler.transform.position);
 
 		do
 		{
-			float x = Random.Range(-7, 7); 
+			float x = Random.Range(-7, 7);
 			float z = Random.Range(-7, 7);
-			
-			Vector3 genPosition = new Vector3(x, 0, z); 
 
-			distance = Vector3.Distance(genPosition, movementHandler.transform.position); 
+			Vector3 genPosition = new Vector3(x, 0, z);
 
-			targetPosition = new Vector3(x, 0, z); 
+			distance = Vector3.Distance(genPosition, movementHandler.transform.position);
 
-		}while(distance < 5); 
+			targetPosition = new Vector3(x, 0, z);
+
+		} while (distance < 5);
 	}
 }

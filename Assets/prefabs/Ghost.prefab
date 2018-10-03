@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23168393161593080}
   - component: {fileID: 114116289494247634}
   - component: {fileID: 54618776687047144}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4439609017276340}
   - component: {fileID: 96563419593861018}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
