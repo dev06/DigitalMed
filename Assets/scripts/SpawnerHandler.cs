@@ -71,7 +71,7 @@ public class SpawnerHandler : MonoBehaviour {
 
 		Vector3 position = GetPositionOnMap();
 
-		Vector3 scale = new Vector3(Random.Range(2f, 3f), Random.Range(2f, 3f), Random.Range(2f, 3f));
+		Vector3 scale = new Vector3(Random.Range(1f, 2f), Random.Range(2f, 3f), Random.Range(1f, 2f));
 
 		clone.transform.localScale = scale;
 
@@ -142,7 +142,7 @@ public class SpawnerHandler : MonoBehaviour {
 		return position;
 	}
 
-	private Vector3 GetPositionOnMap()
+	public Vector3 GetPositionOnMap(float mapSize = 10, float offset = 5)
 	{
 		float x = Random.Range(-10f, 10f);
 		float y = 1;
@@ -154,11 +154,11 @@ public class SpawnerHandler : MonoBehaviour {
 
 		int breaker = 0;
 
-		while (distanceToCenter < 5)
+		while (distanceToCenter < offset)
 		{
-			x = Random.Range(-10f, 10f);
+			x = Random.Range(-mapSize, mapSize);
 			y = 1;
-			z = Random.Range(-10f, 10f);
+			z = Random.Range(-mapSize, mapSize);
 
 			position = new Vector3(x, y, z);
 

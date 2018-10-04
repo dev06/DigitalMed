@@ -14,7 +14,7 @@ public class Checkpoint : MonoBehaviour {
 	{
 		movementHandler = FindObjectOfType<PlayerMovement>();
 
-		spawner = FindOBjectOfType<SpawnerHandler>();
+		spawner = FindObjectOfType<SpawnerHandler>();
 
 		targetPosition = transform.position;
 	}
