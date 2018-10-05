@@ -5,15 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour {
 
 
-	private Vector2 pointerDown; 
-	private Vector2 currentPointer; 
-	private Rigidbody rigidbody; 
-	private Vector3 lastPosition; 
-	private Vector3 defaultPosition; 
+	private Vector2 pointerDown;
+	private Vector2 currentPointer;
+	private Rigidbody rigidbody;
+	private Vector3 lastPosition;
+	private Vector3 defaultPosition;
 
 	private List<Vector3> recordingPosition = new List<Vector3>();
 	private bool startedRecording;
 	private float defaultYPos;
+	private float speed = 0;
 
 
 
@@ -27,37 +28,45 @@ public class PlayerMovement : MonoBehaviour {
 		EventManager.OnCheckpointHit -= OnCheckpointHit;
 	}
 
-	void Start () 
+	void Start ()
 	{
 		rigidbody = transform.GetComponent<Rigidbody>();
-		defaultPosition = Camera.main.transform.position; 
-		defaultYPos = transform.position.y; 
+		defaultPosition = Camera.main.transform.position;
+		defaultYPos = transform.position.y;
 	}
 
 
-	void Update () 
+	void Update ()
 	{
-		if(Input.GetMouseButtonDown(0))
+
+
+		Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f);
+
+		speed = 10f;
+
+		if (Input.GetMouseButton(0) == false)
 		{
-			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition); 
-		}	
+			speed = 0;
+			return;
+		}
 
-		Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f); 
-
-		if(Input.GetMouseButton(0) == false) return; 
-
-		Move(); 
+		Move();
 	}
 
 	void Move()
 	{
+		if (Input.GetMouseButtonDown(0))
+		{
+			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		}
+
 		currentPointer = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
-		Vector3 velocity = currentPointer - pointerDown; 
+		Vector3 velocity = currentPointer - pointerDown;
 
-		velocity.Normalize(); 
+		velocity.Normalize();
 
-		Vector3 v = new Vector3(velocity.x, 0, velocity.y); 
+		Vector3 v = new Vector3(velocity.x, 0, velocity.y);
 
 
 		if (!startedRecording)
@@ -68,13 +77,22 @@ public class PlayerMovement : MonoBehaviour {
 		}
 
 
-		transform.Translate(v * Time.deltaTime * 10f, Space.World); 
+		transform.Translate(v * Time.deltaTime * speed, Space.World);
 
-		transform.position = new Vector3(transform.position.x, defaultYPos, transform.position.z); 
+		float posX = transform.position.x;
+		float posZ = transform.position.z;
 
-		transform.rotation = Quaternion.LookRotation(v, Vector3.up); 
+		posX = Mathf.Clamp(posX, -12f, 12f);
+		posZ = Mathf.Clamp(posZ, -12f, 12f);
 
-		lastPosition = transform.position; 
+		transform.position = new Vector3(posX, defaultYPos, posZ);
+
+		if (v != Vector3.zero)
+		{
+			transform.rotation = Quaternion.LookRotation(v, Vector3.up);
+		}
+
+		lastPosition = transform.position;
 
 	}
 

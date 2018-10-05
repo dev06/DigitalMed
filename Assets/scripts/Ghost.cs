@@ -40,11 +40,15 @@ public class Ghost : MonoBehaviour {
 	void LateUpdate()
 	{
 		Vector3 direction = transform.position - lastPosition;
-		Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
-		Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 50f);
-		rot.x = 0;
-		rot.z = 0;
-		transform.rotation = rot;
+		if (direction != Vector3.zero)
+		{
+
+			Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+			Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 50f);
+			rot.x = 0;
+			rot.z = 0;
+			transform.rotation = rot;
+		}
 		lastPosition = transform.position;
 
 	}

@@ -35,7 +35,7 @@ public class SpawnerHandler : MonoBehaviour {
 
 	void Start()
 	{
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			SpawnObstacles();
 
@@ -102,17 +102,12 @@ public class SpawnerHandler : MonoBehaviour {
 		}
 	}
 
-	private float GetRandomFloat(float threshold)
-	{
-		return Random.Range(0, 2) == 0 ? Random.Range(-10f, -threshold) : Random.Range(threshold, 10f);
-	}
-
 	private bool IsValidPos(Vector3 position)
 	{
 		for (int i = 0; i < Obstacles.Count; i++)
 		{
 
-			if (Vector3.Distance(Obstacles[i].transform.position, position) < 3)
+			if (Vector3.Distance(Obstacles[i].transform.position, position) < 5)
 			{
 
 				Debug.Log("Position is not valid");
