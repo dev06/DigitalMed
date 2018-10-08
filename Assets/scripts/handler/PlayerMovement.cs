@@ -39,15 +39,19 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
 	{
 
-
 		Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f);
 
-		speed = 10f;
+		speed = 8f;
 
 		if (Input.GetMouseButton(0) == false)
 		{
 			speed = 0;
 			return;
+		}
+
+		if (Input.GetMouseButtonUp(0))
+		{
+			pointerDown = Vector2.zero;
 		}
 
 		Move();
@@ -124,7 +128,11 @@ public class PlayerMovement : MonoBehaviour {
 
 		recordingPosition.Clear();
 
-		SpawnerHandler.Instance.AddGhost(temp);
+		if (GameplayController.Instance.collectedAllCheckpoints == false)
+		{
+			SpawnerHandler.Instance.AddGhost(temp);
+		}
+
 
 		startedRecording = false;
 	}

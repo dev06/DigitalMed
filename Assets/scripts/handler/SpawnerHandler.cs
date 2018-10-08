@@ -16,6 +16,10 @@ public class SpawnerHandler : MonoBehaviour {
 
 	private List<GameObject> Obstacles = new List<GameObject>();
 
+	public bool EnableGhost = true;
+
+	private Transform _ghostContainer;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -35,11 +39,7 @@ public class SpawnerHandler : MonoBehaviour {
 
 	void Start()
 	{
-		for (int i = 0; i < 4; i++)
-		{
-			SpawnObstacles();
-
-		}
+		_ghostContainer = FindObjectOfType<Transform>();
 	}
 
 	//Method called when player hits a new checkpoint.
@@ -58,9 +58,13 @@ public class SpawnerHandler : MonoBehaviour {
 	//Add Ghost to the world with list of Vector2 path that it will follow
 	public void AddGhost(List<Vector3> path)
 	{
+		if (!EnableGhost) return;
+
 		GameObject clone = Instantiate(playerPrefab) as GameObject;
 
 		clone.transform.position = Vector3.zero;
+
+		clone.transform.SetParent(_ghostContainer);
 
 		clone.transform.GetComponent<Ghost>().Init(path);
 	}

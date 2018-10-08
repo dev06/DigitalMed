@@ -16,12 +16,12 @@ public class Checkpoint : MonoBehaviour {
 
 		spawner = FindObjectOfType<SpawnerHandler>();
 
-		targetPosition = transform.position;
+		transform.position = GetNextLocation();
 	}
 
 	void Update () {
 
-		transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
+		//transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
 	}
 
 	void OnCollisionEnter(Collision col)
@@ -33,7 +33,22 @@ public class Checkpoint : MonoBehaviour {
 			EventManager.OnCheckpointHit();
 		}
 
-		GenerateCheckpointPosition();
+		transform.position = GetNextLocation();
+
+
+
+		//	GenerateCheckpointPosition();
+	}
+
+	private Vector3 GetNextLocation()
+	{
+		Vector3 location = Vector3.up;
+
+		Transform currentLevelObjectLocations = LevelController.Instance.CurrentLevelObject.GetChild(1);
+
+		location = currentLevelObjectLocations.GetChild(GameplayController.Instance.checkpointsCollected).position;
+
+		return location;
 	}
 
 	// Generates new checkpoint in the world
