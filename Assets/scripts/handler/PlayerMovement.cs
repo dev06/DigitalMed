@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour {
 	private float defaultYPos;
 	private float speed = 0;
 
+	private Animator animator;
+
 
 
 
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour {
 		rigidbody = transform.GetComponent<Rigidbody>();
 		defaultPosition = Camera.main.transform.position;
 		defaultYPos = transform.position.y;
+		animator = GetComponent<Animator>();
 	}
 
 
@@ -43,14 +46,21 @@ public class PlayerMovement : MonoBehaviour {
 
 		speed = 8f;
 
+		animator.SetBool("isWalking", Input.GetMouseButton(0));
+
+
 		if (Input.GetMouseButton(0) == false)
 		{
 			speed = 0;
+
+
 			return;
 		}
 
 		if (Input.GetMouseButtonUp(0))
 		{
+
+
 			pointerDown = Vector2.zero;
 		}
 
@@ -64,9 +74,12 @@ public class PlayerMovement : MonoBehaviour {
 			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 		}
 
+
+
 		currentPointer = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
 		Vector3 velocity = currentPointer - pointerDown;
+
 
 		velocity.Normalize();
 
@@ -130,8 +143,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (GameplayController.Instance.collectedAllCheckpoints == false)
 		{
-			SpawnerHandler.Instance.AddGhost(temp);
 		}
+		SpawnerHandler.Instance.AddGhost(temp);
 
 
 		startedRecording = false;

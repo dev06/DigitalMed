@@ -53,13 +53,20 @@ public class Ghost : MonoBehaviour {
 
 	}
 
-	//Tranverse the path
 	public void TraversePath()
 	{
-		if (path == null || (path != null && path.Count == 0)) { return; }
+		if (path == null || (path != null && path.Count == 0))
+		{
+			return;
+		}
 
-		StopCoroutine("ITravesePath");
-		StartCoroutine("ITravesePath");
+
+		if (gameObject.activeSelf)
+		{
+			StopCoroutine("ITravesePath");
+			StartCoroutine("ITravesePath");
+		}
+
 	}
 
 	IEnumerator ITravesePath()

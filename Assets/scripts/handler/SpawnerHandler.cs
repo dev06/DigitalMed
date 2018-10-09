@@ -39,7 +39,7 @@ public class SpawnerHandler : MonoBehaviour {
 
 	void Start()
 	{
-		_ghostContainer = FindObjectOfType<Transform>();
+		_ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 	}
 
 	//Method called when player hits a new checkpoint.
@@ -58,7 +58,9 @@ public class SpawnerHandler : MonoBehaviour {
 	//Add Ghost to the world with list of Vector2 path that it will follow
 	public void AddGhost(List<Vector3> path)
 	{
-		if (!EnableGhost) return;
+		if (!EnableGhost) { return; }
+
+		//if (LevelController.CURRENT_LEVEL > LevelObjects.LEVELS - 1) { return; }
 
 		GameObject clone = Instantiate(playerPrefab) as GameObject;
 

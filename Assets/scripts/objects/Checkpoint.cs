@@ -10,13 +10,20 @@ public class Checkpoint : MonoBehaviour {
 
 	private SpawnerHandler spawner;
 
-	void Start ()
+	public void Init ()
 	{
 		movementHandler = FindObjectOfType<PlayerMovement>();
 
 		spawner = FindObjectOfType<SpawnerHandler>();
 
 		transform.position = GetNextLocation();
+
+		Toggle(true);
+	}
+
+	private void Toggle(bool b)
+	{
+		GetComponent<MeshRenderer>().enabled = b;
 	}
 
 	void Update () {
@@ -35,9 +42,6 @@ public class Checkpoint : MonoBehaviour {
 
 		transform.position = GetNextLocation();
 
-
-
-		//	GenerateCheckpointPosition();
 	}
 
 	private Vector3 GetNextLocation()
@@ -51,22 +55,5 @@ public class Checkpoint : MonoBehaviour {
 		return location;
 	}
 
-	// Generates new checkpoint in the world
-	private void GenerateCheckpointPosition()
-	{
-		float distance = Vector3.Distance(transform.position, movementHandler.transform.position);
 
-		do
-		{
-			float x = Random.Range(-7, 7);
-			float z = Random.Range(-7, 7);
-
-			Vector3 genPosition = new Vector3(x, 0, z);
-
-			distance = Vector3.Distance(genPosition, movementHandler.transform.position);
-
-			targetPosition = new Vector3(x, 0, z);
-
-		} while (distance < 5);
-	}
 }

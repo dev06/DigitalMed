@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ghost
   - Platform
+  - Containers/Ghost
   layers:
   - Default
   - TransparentFX

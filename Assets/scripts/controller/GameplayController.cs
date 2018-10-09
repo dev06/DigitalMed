@@ -36,7 +36,7 @@ public class GameplayController : MonoBehaviour {
 
 	void Start()
 	{
-		_ghostContainer = FindObjectOfType<Transform>();
+		_ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 	}
 
 	void OnCheckpointHit()
@@ -50,11 +50,6 @@ public class GameplayController : MonoBehaviour {
 			if (EventManager.OnLevelComplete != null)
 			{
 				EventManager.OnLevelComplete();
-			}
-
-			foreach (Transform t in _ghostContainer)
-			{
-				t.gameObject.SetActive(false);
 			}
 
 			checkpointsCollected = 0;

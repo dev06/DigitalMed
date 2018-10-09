@@ -53,6 +53,10 @@ public class LevelController : MonoBehaviour {
 	void Start ()
 	{
 		_levelObjects = FindObjectOfType<LevelObjects>();
+
+		_levelObjects.Init();
+
+		FindObjectOfType<Checkpoint>().Init();
 	}
 
 	void Update ()
