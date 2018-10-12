@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameplayController : MonoBehaviour {
 
+
+	public bool CanDie = true;
+
 	public static GameplayController Instance;
 
 	public int checkpointsCollected;

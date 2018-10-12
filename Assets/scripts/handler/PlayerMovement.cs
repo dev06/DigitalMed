@@ -156,6 +156,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		if (col.gameObject.tag == "Ghost")
 		{
+			if (!GameplayController.Instance.CanDie) { return; }
+
 			if (EventManager.OnGameOver != null)
 			{
 				EventManager.OnGameOver();
