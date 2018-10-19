@@ -42,26 +42,22 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
 	{
 
-		Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f);
+		// Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f);
+
+		Camera.main.transform.GetComponent<CameraController>().SetPosition(transform.position + defaultPosition);
 
 		speed = 8f;
 
 		animator.SetBool("isWalking", Input.GetMouseButton(0));
 
 
-		if (Input.GetMouseButton(0) == false)
-		{
-			speed = 0;
-
-
-			return;
-		}
+		if (!Input.GetMouseButton(0)) { return; }
 
 		if (Input.GetMouseButtonUp(0))
 		{
-
-
 			pointerDown = Vector2.zero;
+			speed = 0;
+			return;
 		}
 
 		Move();

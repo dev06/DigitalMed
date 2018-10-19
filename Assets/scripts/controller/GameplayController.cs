@@ -55,6 +55,11 @@ public class GameplayController : MonoBehaviour {
 				EventManager.OnLevelComplete();
 			}
 
+			for (int i = 0; i < _ghostContainer.transform.childCount; i++)
+			{
+				_ghostContainer.GetChild(i).transform.gameObject.SetActive(false);
+			}
+
 			checkpointsCollected = 0;
 		}
 	}

@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: edee3ec0bfd1a1949a347e53d0c9764c
-timeCreated: 1539482076
-licenseType: Free
 ModelImporter:
-  serializedVersion: 22
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: Cube
     100002: Cube.001
@@ -13,6 +11,12 @@ ModelImporter:
     100010: Cube.005
     100012: Cube.006
     100014: //RootNode
+    100016: Cube.007
+    100018: Cube.008
+    100020: Cube.009
+    100022: Cube.010
+    100024: Cube.011
+    100026: Cube.012
     400000: Cube
     400002: Cube.001
     400004: Cube.002
@@ -21,7 +25,20 @@ ModelImporter:
     400010: Cube.005
     400012: Cube.006
     400014: //RootNode
+    400016: Cube.007
+    400018: Cube.008
+    400020: Cube.009
+    400022: Cube.010
+    400024: Cube.011
+    400026: Cube.012
     2100000: No Name
+    2100002: Material.004
+    2100004: Material.002
+    2100006: Material.003
+    2100008: Material.001
+    2100010: Material.006
+    2100012: Material.007
+    2100014: Material.005
     2300000: Cube
     2300002: Cube.001
     2300004: Cube.002
@@ -29,6 +46,12 @@ ModelImporter:
     2300008: Cube.004
     2300010: Cube.005
     2300012: Cube.006
+    2300014: Cube.007
+    2300016: Cube.008
+    2300018: Cube.009
+    2300020: Cube.010
+    2300022: Cube.011
+    2300024: Cube.012
     3300000: Cube
     3300002: Cube.001
     3300004: Cube.002
@@ -36,6 +59,12 @@ ModelImporter:
     3300008: Cube.004
     3300010: Cube.005
     3300012: Cube.006
+    3300014: Cube.007
+    3300016: Cube.008
+    3300018: Cube.009
+    3300020: Cube.010
+    3300022: Cube.011
+    3300024: Cube.012
     4300000: Cube.006
     4300002: Cube.005
     4300004: Cube.004
@@ -43,6 +72,12 @@ ModelImporter:
     4300008: Cube.002
     4300010: Cube.001
     4300012: Cube
+    4300014: Cube.010
+    4300016: Cube.009
+    4300018: Cube.008
+    4300020: Cube.007
+    4300022: Cube.012
+    4300024: Cube.011
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -62,6 +97,7 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -93,6 +129,8 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0

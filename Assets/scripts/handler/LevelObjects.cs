@@ -20,10 +20,6 @@ public class LevelObjects : MonoBehaviour {
 		ToggleLevelObject(0);
 	}
 
-	void Update () {
-
-	}
-
 	public void ToggleLevelObject(int index)
 	{
 		if (index > levelObjects.Count - 1) { return; }

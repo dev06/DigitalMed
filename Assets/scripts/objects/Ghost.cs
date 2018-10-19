@@ -75,9 +75,11 @@ public class Ghost : MonoBehaviour {
 
 		int direction = 1;
 
+		Vector3 heightOffset = new Vector3(0, 2, 0);
+
 		while (true)
 		{
-			lerpPosition = path[index];
+			lerpPosition = path[index] + heightOffset;
 
 			index += direction;
 

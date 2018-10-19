@@ -4,27 +4,42 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
+
 	private Vector3 shootingPosition;
+
 	private bool shot = false;
+
 	private Transform defaultParent;
+
+
 	void Start ()
 	{
 		defaultParent = transform.parent;
+
+		Toggle(false);
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
+
 		if (!shot) { return; }
+
 		transform.forward = shootingPosition;
+
 		transform.Translate(transform.forward * Time.deltaTime * 10f, Space.World);
-		//transform.position = Vector3.MoveTowards(transform.position, shootingPosition, Time.deltaTime * 5f);
+
 	}
 
 	public void ShootTowards(Vector3 position)
 	{
+
+		Toggle(true);
+
 		shot = true;
+
 		shootingPosition =  position - transform.position;
+
 		transform.parent = null;
 	}
 
@@ -37,9 +52,22 @@ public class Bullet : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Platform")
 		{
+
 			transform.SetParent(defaultParent);
+
 			transform.localPosition = Vector3.zero;
+
+			Toggle(false);
+
 			shot = false;
+		}
+	}
+
+	public void Toggle(bool b)
+	{
+		foreach (Transform t in transform)
+		{
+			t.gameObject.SetActive(b);
 		}
 	}
 }

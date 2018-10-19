@@ -22,7 +22,7 @@ public class HoverGhost : MonoBehaviour {
 
 	private float shootingTimer;
 
-	private float shootingCooldown = .5f;
+	private float shootingCooldown = 1.5f;
 
 	void Start ()
 	{
@@ -103,6 +103,6 @@ public class HoverGhost : MonoBehaviour {
 
 	private void GetNewPosition()
 	{
-		targetPosition = new Vector3(0, 10, 0) +  spawnerHandler.GetPositionOnMap(15, 10);
+		targetPosition = new Vector3(0, 5, 0) +  spawnerHandler.GetPositionOnMap(15, 10);
 	}
 }
