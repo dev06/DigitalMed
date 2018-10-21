@@ -92,4 +92,9 @@ public class Ghost : MonoBehaviour {
 
 		StopCoroutine("ITravesePath");
 	}
+
+	public void Toggle(bool b)
+	{
+		transform.gameObject.SetActive(b);
+	}
 }

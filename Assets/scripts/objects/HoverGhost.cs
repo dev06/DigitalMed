@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HoverGhost : MonoBehaviour {
+public class HoverGhost : Ghost {
 
 
 
@@ -22,7 +22,7 @@ public class HoverGhost : MonoBehaviour {
 
 	private float shootingTimer;
 
-	private float shootingCooldown = 1.5f;
+	private float shootingCooldown = 3.5f;
 
 	void Start ()
 	{

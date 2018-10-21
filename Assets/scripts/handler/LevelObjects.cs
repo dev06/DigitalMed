@@ -24,6 +24,8 @@ public class LevelObjects : MonoBehaviour {
 	{
 		if (index > levelObjects.Count - 1) { return; }
 
+		levelObjects[index].GetComponent<Level>().UpdateLevel();
+
 		for (int i = 0; i < levelObjects.Count; i++)
 		{
 			levelObjects[i].gameObject.SetActive(i == index);
