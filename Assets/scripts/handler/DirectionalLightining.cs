@@ -6,6 +6,8 @@ public class DirectionalLightining : MonoBehaviour {
 
 	private Light light;
 
+	public Animation powerbeamFlash;
+
 	public float defaultIntensity = .3f;
 
 	private float lightningTimer = 0;
@@ -15,6 +17,16 @@ public class DirectionalLightining : MonoBehaviour {
 	private bool started;
 
 	private CameraController cameraController;
+
+	void OnEnable()
+	{
+		EventManager.OnPowerbeamStruck += OnPowerbreamStruck;
+	}
+	void OnDisable()
+	{
+		EventManager.OnPowerbeamStruck -= OnPowerbreamStruck;
+	}
+
 
 	void Start ()
 	{
@@ -33,9 +45,9 @@ public class DirectionalLightining : MonoBehaviour {
 
 		if (lightningTimer > lightningCooldown)
 		{
-			StopCoroutine("StartLightining");
+			//StopCoroutine("StartLightining");
 
-			StartCoroutine("StartLightining");
+			//StartCoroutine("StartLightining");
 
 			started = true;
 
@@ -69,5 +81,13 @@ public class DirectionalLightining : MonoBehaviour {
 		light.color = new Color(defaultIntensity, defaultIntensity, defaultIntensity);
 
 		started = false;
+	}
+
+
+	private void OnPowerbreamStruck()
+	{
+		GetComponent<Animation>().Play();
+
+		powerbeamFlash.Play();
 	}
 }

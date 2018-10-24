@@ -45,4 +45,9 @@ public class CameraController : MonoBehaviour {
 	{
 		targetPosition = position;
 	}
+
+	public void FlashBloom()
+	{
+		GetComponent<Animation>().Play();
+	}
 }

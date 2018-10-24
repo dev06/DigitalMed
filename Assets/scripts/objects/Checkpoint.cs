@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class Checkpoint : MonoBehaviour {
 
 	public ParticleSystem energyDraw;
 
 	PlayerMovement movementHandler;
+
+	CameraController cameraController;
 
 	Vector3 targetPosition;
 
@@ -17,12 +18,22 @@ public class Checkpoint : MonoBehaviour {
 	private LineRenderer lineRenderer;
 
 
-
-
+	void OnEnable()
+	{
+		EventManager.OnLevelComplete += OnLevelComplete;
+		EventManager.OnStartHoverIdol += OnStartHoverIdol;
+	}
+	void OnDisable()
+	{
+		EventManager.OnLevelComplete -= OnLevelComplete;
+		EventManager.OnStartHoverIdol -= OnStartHoverIdol;
+	}
 
 	public void Init ()
 	{
 		movementHandler = FindObjectOfType<PlayerMovement>();
+
+		cameraController = FindObjectOfType<CameraController>();
 
 		spawner = FindObjectOfType<SpawnerHandler>();
 
@@ -60,18 +71,30 @@ public class Checkpoint : MonoBehaviour {
 			EventManager.OnCheckpointHit();
 		}
 
-		transform.position = GetNextLocation();
+		Debug.Log(GameplayController.Instance.checkpointsCollected  + " " + LevelController.Instance.CurrentLevel.CheckpointCount);
+
+		if (GameplayController.Instance.checkpointsCollected < LevelController.Instance.CurrentLevel.CheckpointCount)
+		{
+			transform.position = GetNextLocation();
+		}
+
 	}
 
 	private Vector3 GetNextLocation()
 	{
 		Vector3 location = Vector3.up;
 
-		Transform currentLevelObjectLocations = LevelController.Instance.CurrentLevelObject.GetChild(1);
+		Transform currentLevelObjectLocations = LevelController.Instance.CurrentLevel.CheckpointContainer;
 
 		location = currentLevelObjectLocations.GetChild(GameplayController.Instance.checkpointsCollected).position;
 
 		return location;
+	}
+
+	private void OnStartHoverIdol()
+	{
+		StopCoroutine("IHover");
+		StartCoroutine("IHover");
 	}
 
 
@@ -83,9 +106,11 @@ public class Checkpoint : MonoBehaviour {
 
 		float targetHeight = 5f;
 
+		float speedMultiplier = 2f;
+
 		while (heightOffset < targetHeight)
 		{
-			heightOffset += Time.deltaTime * (targetHeight - heightOffset);
+			heightOffset += Time.deltaTime * (targetHeight - heightOffset) * speedMultiplier;
 
 			if (heightOffset > targetHeight - .2f )
 			{
@@ -103,33 +128,77 @@ public class Checkpoint : MonoBehaviour {
 
 		energyDraw.Play();
 
-		while (shakeTimer < 4f)
+		while (shakeTimer < 2f)
 		{
 			shakeTimer += Time.deltaTime;
 
 			transform.position = hoveringPos + (Vector3)(Random.insideUnitCircle * .1f);
 
-			yield return new WaitForSeconds(.01f);
+			yield return new WaitForSeconds(Time.deltaTime);
 		}
 
 		energyDraw.Stop();
 
 		lineRenderer.enabled = true;
 
+		lineRenderer.endWidth = .1f;
+
 		lineRenderer.SetPosition(0, transform.position + new Vector3(0, 2f, 0));
 
 		for (int i = 0; i < ghostContainer.childCount; i++)
 		{
+			if (!ghostContainer.GetChild(i).gameObject.activeSelf) { continue; }
+
 			lineRenderer.SetPosition(1, ghostContainer.GetChild(i).transform.position);
 
 			ghostContainer.GetChild(i).GetComponent<Ghost>().Toggle(false);
 
-			yield return new WaitForSeconds(.15f);
+			if (EventManager.OnPowerbeamStruck != null)
+			{
+				EventManager.OnPowerbeamStruck();
+			}
+
+			cameraController.FlashBloom();
+
+			yield return new WaitForSeconds(.31f);
+
+			lineRenderer.enabled = false;
+
+			yield return new WaitForSeconds(.31f);
+
+			lineRenderer.enabled = true;
+
 		}
 
 		lineRenderer.enabled = false;
 
+		shakeTimer = 0;
+
+		FindObjectOfType<PowerbeamFlash>().IncreaseFade();
+
+		float shakeIntensity = 0f;
+
+		while (shakeTimer < 4f)
+		{
+			shakeTimer += Time.deltaTime;
+
+			shakeIntensity = shakeTimer;
+
+			shakeIntensity = Mathf.Clamp(shakeIntensity, 0, .4f);
+
+			transform.position = hoveringPos + (Vector3)(Random.insideUnitCircle * shakeIntensity);
+
+			yield return new WaitForSeconds(Time.deltaTime);
+		}
+
+
+
 		Debug.Log("Out");
 
+	}
+
+	void OnLevelComplete()
+	{
+		transform.position = GetNextLocation();
 	}
 }

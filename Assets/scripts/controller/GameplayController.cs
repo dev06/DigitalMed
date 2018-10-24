@@ -30,11 +30,13 @@ public class GameplayController : MonoBehaviour {
 	void OnEnable()
 	{
 		EventManager.OnCheckpointHit += OnCheckpointHit;
+		EventManager.OnLevelComplete += OnLevelComplete;
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnCheckpointHit -= OnCheckpointHit;
+		EventManager.OnLevelComplete -= OnLevelComplete;
 	}
 
 	void Start()
@@ -46,21 +48,19 @@ public class GameplayController : MonoBehaviour {
 	{
 		checkpointsCollected++;
 
-		collectedAllCheckpoints = (checkpointsCollected == LevelController.Instance.CurrentLevelObject.GetChild(1).childCount);
+		collectedAllCheckpoints = (checkpointsCollected == LevelController.Instance.CurrentLevel.CheckpointCount);
 
-		if (checkpointsCollected >= LevelController.Instance.CurrentLevelObject.GetChild(1).childCount)
+		if (checkpointsCollected >= LevelController.Instance.CurrentLevel.CheckpointCount)
 		{
-			if (EventManager.OnLevelComplete != null)
+			if (EventManager.OnStartHoverIdol != null)
 			{
-				EventManager.OnLevelComplete();
+				EventManager.OnStartHoverIdol();
 			}
-
-			// for (int i = 0; i < _ghostContainer.transform.childCount; i++)
-			// {
-			// 	_ghostContainer.GetChild(i).transform.gameObject.SetActive(false);
-			// }
-
-			checkpointsCollected = 0;
 		}
+	}
+
+	void OnLevelComplete()
+	{
+		checkpointsCollected = 0;
 	}
 }

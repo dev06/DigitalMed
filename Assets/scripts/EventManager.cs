@@ -8,5 +8,6 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnCheckpointHit;
 	public static Gameplay OnGameOver;
 	public static Gameplay OnLevelComplete;
-
+	public static Gameplay OnPowerbeamStruck;
+	public static Gameplay OnStartHoverIdol;
 }

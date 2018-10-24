@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelObjects : MonoBehaviour {
 
-	private List<Transform> levelObjects = new List<Transform>();
+	private List<Level> levels = new List<Level>();
 
 	public static int LEVELS = 0;
 
@@ -12,7 +12,9 @@ public class LevelObjects : MonoBehaviour {
 	{
 		for (int i = 0 ; i < transform.childCount; i++)
 		{
-			levelObjects.Add(transform.GetChild(i));
+			Level l = transform.GetChild(i).GetComponent<Level>();
+			l.Init();
+			levels.Add(l);
 		}
 
 		LEVELS = transform.childCount;
@@ -22,15 +24,18 @@ public class LevelObjects : MonoBehaviour {
 
 	public void ToggleLevelObject(int index)
 	{
-		if (index > levelObjects.Count - 1) { return; }
+		if (index > levels.Count - 1) { return; }
 
-		levelObjects[index].GetComponent<Level>().UpdateLevel();
+		levels[index].UpdateLevel();
 
-		for (int i = 0; i < levelObjects.Count; i++)
+		for (int i = 0; i < levels.Count; i++)
 		{
-			levelObjects[i].gameObject.SetActive(i == index);
+			levels[i].transform.gameObject.SetActive(i == index);
 		}
 
-		LevelController.Instance.CurrentLevelObject = levelObjects[index];
+		LevelController.Instance.CurrentLevel = levels[index];
 	}
+
+
+
 }

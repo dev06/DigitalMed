@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour {
 
 	private LevelObjects _levelObjects;
 
-	public Transform _currentLevelObject;
+	public Level _currentLevel;
 
 
 	void Awake()
@@ -64,9 +64,9 @@ public class LevelController : MonoBehaviour {
 
 	}
 
-	public Transform CurrentLevelObject
+	public Level CurrentLevel
 	{
-		set {this._currentLevelObject = value; }
-		get {return _currentLevelObject; }
+		set {this._currentLevel = value; }
+		get {return _currentLevel; }
 	}
 }

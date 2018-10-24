@@ -6,24 +6,47 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
 
-	private Transform AI;
+
+	public int checkpointsInLevel; // number of checkpoints in the current level;
+
+	//Containers
+	public Transform CheckpointContainer;
+
+	private Transform AIContainer;
+
+
+
+
 
 	private Transform hover_ghost;
-	private Transform ghostContainer;
-	void Start()
-	{
 
+	private Transform ghostContainer;
+
+	public void Init()
+	{
+		CheckpointContainer = transform.GetChild(1).transform;
+
+		checkpointsInLevel = CheckpointContainer.childCount;
 	}
 
 	public void UpdateLevel()
 	{
-		AI = transform.GetChild(2).transform;
+		AIContainer = transform.GetChild(2).transform;
 
-		hover_ghost = AI.GetChild(0);
+		if (AIContainer.childCount <= 0) { return; }
+
+		hover_ghost = AIContainer.GetChild(0);
 
 		ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 
 		hover_ghost.SetParent(ghostContainer);
 	}
 
+	public int CheckpointCount
+	{
+		get
+		{
+			return checkpointsInLevel;
+		}
+	}
 }
