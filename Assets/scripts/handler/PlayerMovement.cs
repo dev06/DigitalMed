@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		Camera.main.transform.GetComponent<CameraController>().SetPosition(transform.position + defaultPosition);
 
-		speed = 8f;
+		speed = 0f;
 
 		animator.SetBool("isWalking", Input.GetMouseButton(0));
 
@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0))
 		{
 			pointerDown = Vector2.zero;
-			speed = 0;
 			return;
 		}
 
@@ -65,6 +64,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	void Move()
 	{
+		speed = 8;
+		
 		if (Input.GetMouseButtonDown(0))
 		{
 			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition);

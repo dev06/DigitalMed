@@ -45,9 +45,9 @@ public class DirectionalLightining : MonoBehaviour {
 
 		if (lightningTimer > lightningCooldown)
 		{
-			//StopCoroutine("StartLightining");
+			StopCoroutine("StartLightining");
 
-			//StartCoroutine("StartLightining");
+			StartCoroutine("StartLightining");
 
 			started = true;
 
@@ -73,7 +73,7 @@ public class DirectionalLightining : MonoBehaviour {
 
 			light.color = new Color(intensity, intensity, intensity);
 
-			cameraController.Shake(CameraController.LIGHTNING_SHAKE);
+			//cameraController.Shake(CameraController.LIGHTNING_SHAKE);
 
 			yield return new WaitForSeconds(Random.Range(.005f, .01f));
 		}

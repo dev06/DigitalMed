@@ -17,6 +17,8 @@ public class Checkpoint : MonoBehaviour {
 
 	private LineRenderer lineRenderer;
 
+	private ParticleSystem lightingBolt; 
+
 
 	void OnEnable()
 	{
@@ -42,6 +44,8 @@ public class Checkpoint : MonoBehaviour {
 		ghostContainer = GameObject.FindWithTag("Containers/Ghost").transform;
 
 		lineRenderer = transform.GetComponentInChildren<LineRenderer>();
+
+		lightingBolt = transform.GetChild(4).GetComponent<ParticleSystem>();
 
 		lineRenderer.enabled = false;
 
@@ -71,7 +75,7 @@ public class Checkpoint : MonoBehaviour {
 			EventManager.OnCheckpointHit();
 		}
 
-		Debug.Log(GameplayController.Instance.checkpointsCollected  + " " + LevelController.Instance.CurrentLevel.CheckpointCount);
+		// Debug.Log(GameplayController.Instance.checkpointsCollected  + " " + LevelController.Instance.CurrentLevel.CheckpointCount);
 
 		if (GameplayController.Instance.checkpointsCollected < LevelController.Instance.CurrentLevel.CheckpointCount)
 		{
@@ -132,24 +136,28 @@ public class Checkpoint : MonoBehaviour {
 		{
 			shakeTimer += Time.deltaTime;
 
-			transform.position = hoveringPos + (Vector3)(Random.insideUnitCircle * .1f);
+			transform.position = Vector3.Lerp(transform.position, hoveringPos + (Vector3)(Random.insideUnitCircle * .1f), Time.deltaTime * 10f);
 
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
 
 		energyDraw.Stop();
 
-		lineRenderer.enabled = true;
+		//lineRenderer.enabled = true;
 
-		lineRenderer.endWidth = .1f;
+		//lineRenderer.endWidth = .1f;
 
-		lineRenderer.SetPosition(0, transform.position + new Vector3(0, 2f, 0));
+		//lineRenderer.SetPosition(0, transform.position + new Vector3(0, 2f, 0));
+
+		lightingBolt.Play();
 
 		for (int i = 0; i < ghostContainer.childCount; i++)
 		{
 			if (!ghostContainer.GetChild(i).gameObject.activeSelf) { continue; }
 
-			lineRenderer.SetPosition(1, ghostContainer.GetChild(i).transform.position);
+			lightingBolt.transform.position = ghostContainer.GetChild(i).transform.position + new Vector3(0, -1f, 0); 
+
+			//lineRenderer.SetPosition(1, ghostContainer.GetChild(i).transform.position);
 
 			ghostContainer.GetChild(i).GetComponent<Ghost>().Toggle(false);
 
@@ -160,17 +168,20 @@ public class Checkpoint : MonoBehaviour {
 
 			cameraController.FlashBloom();
 
+		//	yield return new WaitForSeconds(.31f);
+
+			//lineRenderer.enabled = false;
+
+			lightingBolt.Stop();
+
 			yield return new WaitForSeconds(.31f);
 
-			lineRenderer.enabled = false;
+			//lineRenderer.enabled = true;
 
-			yield return new WaitForSeconds(.31f);
-
-			lineRenderer.enabled = true;
-
+			lightingBolt.Play(); 
 		}
 
-		lineRenderer.enabled = false;
+		lightingBolt.Stop();
 
 		shakeTimer = 0;
 
@@ -186,7 +197,7 @@ public class Checkpoint : MonoBehaviour {
 
 			shakeIntensity = Mathf.Clamp(shakeIntensity, 0, .4f);
 
-			transform.position = hoveringPos + (Vector3)(Random.insideUnitCircle * shakeIntensity);
+			transform.position = Vector3.Lerp(transform.position, hoveringPos + (Vector3)(Random.insideUnitCircle * shakeIntensity), Time.deltaTime * 10f);
 
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
