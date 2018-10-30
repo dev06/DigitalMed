@@ -6,7 +6,7 @@ public class PowerbeamFlash : MonoBehaviour {
 
 	private Image image;
 
-	private Color targetColor; 
+	private Color targetColor;
 
 	void OnEnable()
 	{
@@ -21,12 +21,12 @@ public class PowerbeamFlash : MonoBehaviour {
 	void Start ()
 	{
 		image = GetComponent<Image>();
-		targetColor = image.color; 
+		targetColor = image.color;
 	}
 
 	void Update()
 	{
-		image.color = Color.Lerp(image.color, targetColor, Time.deltaTime * 10f); 
+		image.color = Color.Lerp(image.color, targetColor, Time.deltaTime * 10f);
 	}
 
 	// Update is called once per frame

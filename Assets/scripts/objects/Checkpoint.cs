@@ -5,11 +5,13 @@ public class Checkpoint : MonoBehaviour {
 
 	public ParticleSystem energyDraw;
 
-	PlayerMovement movementHandler;
+	private float power = 100f;
 
-	CameraController cameraController;
+	private PlayerMovement movementHandler;
 
-	Vector3 targetPosition;
+	private CameraController cameraController;
+
+	private Vector3 targetPosition;
 
 	private SpawnerHandler spawner;
 
@@ -17,7 +19,9 @@ public class Checkpoint : MonoBehaviour {
 
 	private LineRenderer lineRenderer;
 
-	private ParticleSystem lightingBolt; 
+	private ParticleSystem lightingBolt;
+
+	private bool isHovering;
 
 
 	void OnEnable()
@@ -39,7 +43,7 @@ public class Checkpoint : MonoBehaviour {
 
 		spawner = FindObjectOfType<SpawnerHandler>();
 
-		transform.position = GetNextLocation();
+		targetPosition = GetNextLocation();
 
 		ghostContainer = GameObject.FindWithTag("Containers/Ghost").transform;
 
@@ -63,12 +67,16 @@ public class Checkpoint : MonoBehaviour {
 		{
 			StartCoroutine("IHover");
 		}
-		//transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
+
+		if (!isHovering)
+		{
+			transform.position = Vector3.Lerp(transform.position, targetPosition + new Vector3(0, .75f + Mathf.PingPong(Time.time * .5f, 1f) - .5f, 0), Time.deltaTime * 10f);
+		}
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
-		if (col.gameObject.tag != "Player") { return; }
+		if (col.gameObject.tag != "Player" || isHovering) { return; }
 
 		if (EventManager.OnCheckpointHit != null)
 		{
@@ -79,7 +87,7 @@ public class Checkpoint : MonoBehaviour {
 
 		if (GameplayController.Instance.checkpointsCollected < LevelController.Instance.CurrentLevel.CheckpointCount)
 		{
-			transform.position = GetNextLocation();
+			targetPosition = GetNextLocation();
 		}
 
 	}
@@ -92,6 +100,7 @@ public class Checkpoint : MonoBehaviour {
 
 		location = currentLevelObjectLocations.GetChild(GameplayController.Instance.checkpointsCollected).position;
 
+		//Debug.Log(LevelController.Instance.CurrentLevel + " " + location + " " + GameplayController.Instance.checkpointsCollected);
 		return location;
 	}
 
@@ -104,6 +113,8 @@ public class Checkpoint : MonoBehaviour {
 
 	private IEnumerator IHover()
 	{
+		isHovering = true;
+
 		Vector3 currentPos = transform.position;
 
 		float heightOffset = 0;
@@ -155,7 +166,7 @@ public class Checkpoint : MonoBehaviour {
 		{
 			if (!ghostContainer.GetChild(i).gameObject.activeSelf) { continue; }
 
-			lightingBolt.transform.position = ghostContainer.GetChild(i).transform.position + new Vector3(0, -1f, 0); 
+			lightingBolt.transform.position = ghostContainer.GetChild(i).transform.position + new Vector3(0, -1f, 0);
 
 			//lineRenderer.SetPosition(1, ghostContainer.GetChild(i).transform.position);
 
@@ -168,7 +179,7 @@ public class Checkpoint : MonoBehaviour {
 
 			cameraController.FlashBloom();
 
-		//	yield return new WaitForSeconds(.31f);
+			//	yield return new WaitForSeconds(.31f);
 
 			//lineRenderer.enabled = false;
 
@@ -178,7 +189,7 @@ public class Checkpoint : MonoBehaviour {
 
 			//lineRenderer.enabled = true;
 
-			lightingBolt.Play(); 
+			lightingBolt.Play();
 		}
 
 		lightingBolt.Stop();
@@ -189,20 +200,22 @@ public class Checkpoint : MonoBehaviour {
 
 		float shakeIntensity = 0f;
 
-		while (shakeTimer < 4f)
-		{
-			shakeTimer += Time.deltaTime;
+		// while (shakeTimer < 1f)
+		// {
+		// 	shakeTimer += Time.deltaTime;
 
-			shakeIntensity = shakeTimer;
+		// 	shakeIntensity = shakeTimer;
 
-			shakeIntensity = Mathf.Clamp(shakeIntensity, 0, .4f);
+		// 	shakeIntensity = Mathf.Clamp(shakeIntensity, 0, .4f);
 
-			transform.position = Vector3.Lerp(transform.position, hoveringPos + (Vector3)(Random.insideUnitCircle * shakeIntensity), Time.deltaTime * 10f);
+		// 	transform.position = Vector3.Lerp(transform.position, hoveringPos + (Vector3)(Random.insideUnitCircle * shakeIntensity), Time.deltaTime * 10f);
 
-			yield return new WaitForSeconds(Time.deltaTime);
-		}
+		// 	yield return new WaitForSeconds(Time.deltaTime);
+		// }
 
+		targetPosition = transform.position;
 
+		isHovering = false;
 
 		Debug.Log("Out");
 
@@ -210,6 +223,15 @@ public class Checkpoint : MonoBehaviour {
 
 	void OnLevelComplete()
 	{
-		transform.position = GetNextLocation();
+		GameplayController.Instance.checkpointsCollected = 0;
+
+		targetPosition = GetNextLocation();
 	}
+
+	public float Power
+	{
+		get { return power; }
+		set {this.power = value; }
+	}
+
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-
+	private int health = 3;
 	private Vector2 pointerDown;
 	private Vector2 currentPointer;
 	private Rigidbody rigidbody;
@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	private Animator animator;
 
+
+	public ParticleSystem hurtParticles;
 
 
 
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour {
 	void Move()
 	{
 		speed = 8;
-		
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition);
@@ -155,10 +157,30 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			if (!GameplayController.Instance.CanDie) { return; }
 
-			if (EventManager.OnGameOver != null)
+			Health--;
+
+			hurtParticles.Play();
+
+			Health = Mathf.Clamp(health, 0, health);
+
+			if (Health <= 0)
 			{
-				EventManager.OnGameOver();
+				if (EventManager.OnGameOver != null)
+				{
+					EventManager.OnGameOver();
+				}
+			}
+
+			if (EventManager.OnHitGhost != null)
+			{
+				EventManager.OnHitGhost();
 			}
 		}
+	}
+
+	public int Health
+	{
+		get { return health;}
+		set {this.health = value;}
 	}
 }

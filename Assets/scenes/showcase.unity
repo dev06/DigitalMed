@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.015
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
   m_AmbientEquatorColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientIntensity: 1
@@ -53,7 +53,7 @@ LightmapSettings:
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: e593ef84fbd7dd548a704edb5d5f535d,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -15221,7 +15222,7 @@ Transform:
   - {fileID: 1939452014}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -471.06793, z: 0.67300004}
+  m_LocalEulerAnglesHint: {x: 0, y: -543.17633, z: 0.67300004}
 --- !u!114 &772225257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15547,6 +15548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0778fa7e0f60a43cc9e60bf7b28c8d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hurtParticles: {fileID: 0}
 --- !u!95 &870536441
 Animator:
   serializedVersion: 3
