@@ -12,7 +12,7 @@ public class DirectionalLightining : MonoBehaviour {
 
 	private float lightningTimer = 0;
 
-	private float lightningCooldown = 3f;
+	private float lightningCooldown = 1f;
 
 	private bool started;
 
@@ -69,7 +69,7 @@ public class DirectionalLightining : MonoBehaviour {
 		{
 			timer += Time.deltaTime;
 
-			intensity = Random.Range(0f, 1f);
+			intensity = Random.Range(.7f, 1f);
 
 			light.color = new Color(intensity, intensity, intensity);
 
