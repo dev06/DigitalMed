@@ -44,6 +44,17 @@ public class GameplayController : MonoBehaviour {
 		_ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 	}
 
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.H))
+		{
+			if (EventManager.OnStartHoverIdol != null)
+			{
+				EventManager.OnStartHoverIdol();
+			}
+		}
+	}
+
 	void OnCheckpointHit()
 	{
 		checkpointsCollected++;

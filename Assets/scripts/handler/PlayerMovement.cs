@@ -4,39 +4,58 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+	public ParticleSystem hurtParticles;
+
+	public List<Key> keysCollected = new List<Key>();
+
 	private int health = 3;
+
 	private Vector2 pointerDown;
+
 	private Vector2 currentPointer;
+
 	private Rigidbody rigidbody;
+
 	private Vector3 lastPosition;
+
 	private Vector3 defaultPosition;
 
 	private List<Vector3> recordingPosition = new List<Vector3>();
+
 	private bool startedRecording;
+
 	private float defaultYPos;
+
 	private float speed = 0;
 
 	private Animator animator;
 
+	private Vector3 startingPosition = new Vector3(-12, 0, -12);
 
-	public ParticleSystem hurtParticles;
-
-
+	private bool lockMove;
 
 	void OnEnable()
 	{
 		EventManager.OnCheckpointHit += OnCheckpointHit;
+
+		EventManager.OnLevelComplete += OnLevelComplete;
 	}
 	void OnDisable()
 	{
 		EventManager.OnCheckpointHit -= OnCheckpointHit;
+
+		EventManager.OnLevelComplete -= OnLevelComplete;
 	}
 
 	void Start ()
 	{
+
 		rigidbody = transform.GetComponent<Rigidbody>();
+
 		defaultPosition = Camera.main.transform.position;
+
 		defaultYPos = transform.position.y;
+
 		animator = GetComponent<Animator>();
 	}
 
@@ -44,14 +63,16 @@ public class PlayerMovement : MonoBehaviour {
 	void Update ()
 	{
 
-		// Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position  + defaultPosition, Time.deltaTime * 10f);
-
 		Camera.main.transform.GetComponent<CameraController>().SetPosition(transform.position + defaultPosition);
 
 		speed = 0f;
 
-		animator.SetBool("isWalking", Input.GetMouseButton(0));
+		animator.SetBool("isWalking", Input.GetMouseButton(0) && !lockMove);
 
+		if (lockMove)
+		{
+			return;
+		}
 
 		if (!Input.GetMouseButton(0)) { return; }
 
@@ -95,11 +116,16 @@ public class PlayerMovement : MonoBehaviour {
 
 		transform.Translate(v * Time.deltaTime * speed, Space.World);
 
+
 		float posX = transform.position.x;
+
 		float posZ = transform.position.z;
 
-		posX = Mathf.Clamp(posX, -12f, 12f);
-		posZ = Mathf.Clamp(posZ, -12f, 12f);
+		float mapSize = 31f;
+
+		posX = Mathf.Clamp(posX, -mapSize * .5f, mapSize * .5f);
+
+		posZ = Mathf.Clamp(posZ, -mapSize * .5f, mapSize * .5f);
 
 		transform.position = new Vector3(posX, defaultYPos, posZ);
 
@@ -110,6 +136,35 @@ public class PlayerMovement : MonoBehaviour {
 
 		lastPosition = transform.position;
 
+	}
+
+	private void OnLevelComplete()
+	{
+
+		transform.position = startingPosition;
+
+		lastPosition = startingPosition;
+
+		transform.rotation = Quaternion.Euler(Vector3.zero);
+		//	currentPointer = pointerDown = Vector3.zero;
+
+		StopCoroutine("IDisableLockMove");
+
+		StartCoroutine("IDisableLockMove");
+
+		recordingPosition.Clear();
+	}
+
+	private IEnumerator IDisableLockMove()
+	{
+		yield return new WaitForSeconds(2f);
+		LockMove = false;
+	}
+
+	public bool LockMove
+	{
+		get { return lockMove;}
+		set {this.lockMove = value;}
 	}
 
 
@@ -140,11 +195,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		recordingPosition.Clear();
 
-		if (GameplayController.Instance.collectedAllCheckpoints == false)
-		{
-		}
 		SpawnerHandler.Instance.AddGhost(temp);
-
 
 		startedRecording = false;
 	}
@@ -176,11 +227,39 @@ public class PlayerMovement : MonoBehaviour {
 				EventManager.OnHitGhost();
 			}
 		}
+
+		if (col.gameObject.tag == "Key")
+		{
+			AddKey(col.gameObject.transform.GetComponent<Key>());
+		}
+	}
+
+	public void MovePlayerToStartPosition()
+	{
+		transform.position = defaultPosition;
 	}
 
 	public int Health
 	{
 		get { return health;}
 		set {this.health = value;}
+	}
+
+	public void AddKey(Key key)
+	{
+		keysCollected.Add(key);
+	}
+
+	public bool ContainsKey(Key key)
+	{
+		for (int i = 0; i < keysCollected.Count; i++)
+		{
+			if (keysCollected[i] == key)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-	public static GameController Instance; 
+	public static GameController Instance;
 
 
 	void OnEnable()
 	{
-		EventManager.OnGameOver+=OnGameOver; 
+		EventManager.OnGameOver += OnGameOver;
 	}
 	void OnDisable()
 	{
-		EventManager.OnGameOver-=OnGameOver; 
+		EventManager.OnGameOver -= OnGameOver;
 	}
 
 	void Awake()
 	{
 		Application.targetFrameRate = 60;
 
-		if(Instance == null)
+		if (Instance == null)
 		{
-			Instance = this; 
+			Instance = this;
 		}
 	}
 
 	void OnGameOver()
 	{
-		UnityEngine.SceneManagement.SceneManager.LoadScene(0); 
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 	}
 }

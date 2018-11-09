@@ -11,4 +11,5 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnPowerbeamStruck;
 	public static Gameplay OnStartHoverIdol;
 	public static Gameplay OnHitGhost;
+	public static Gameplay OnKeyCollected;
 }

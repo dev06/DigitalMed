@@ -8,6 +8,8 @@ public class PowerbeamFlash : MonoBehaviour {
 
 	private Color targetColor;
 
+	private PlayerMovement playerMovement;
+
 	void OnEnable()
 	{
 		EventManager.OnLevelComplete += OnLevelComplete;
@@ -21,6 +23,7 @@ public class PowerbeamFlash : MonoBehaviour {
 	void Start ()
 	{
 		image = GetComponent<Image>();
+		playerMovement = FindObjectOfType<PlayerMovement>();
 		targetColor = image.color;
 	}
 
@@ -60,6 +63,8 @@ public class PowerbeamFlash : MonoBehaviour {
 
 		yield return new WaitForSeconds(.5f);
 
+		playerMovement.LockMove = true;
+
 		if (EventManager.OnLevelComplete != null)
 		{
 			EventManager.OnLevelComplete();
@@ -79,5 +84,6 @@ public class PowerbeamFlash : MonoBehaviour {
 
 			yield return new WaitForSeconds(Time.deltaTime * .7f);
 		}
+
 	}
 }

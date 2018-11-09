@@ -28,24 +28,11 @@ public class SpawnerHandler : MonoBehaviour {
 		}
 	}
 
-	void OnEnable()
-	{
-		EventManager.OnCheckpointHit += OnCheckpointHit;
-	}
-	void OnDisable()
-	{
-		EventManager.OnCheckpointHit -= OnCheckpointHit;
-	}
-
 	void Start()
 	{
 		_ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 	}
 
-	//Method called when player hits a new checkpoint.
-	void OnCheckpointHit()
-	{
-	}
 
 	void Update()
 	{

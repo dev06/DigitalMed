@@ -87,7 +87,7 @@ public class Ghost : MonoBehaviour {
 			{
 				direction *= -1;
 			}
-			yield return new WaitForSeconds(.022f);
+			yield return new WaitForSeconds(.01f);
 		}
 
 		StopCoroutine("ITravesePath");

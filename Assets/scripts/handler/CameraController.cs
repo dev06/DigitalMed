@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
 		}
 		cameraShakeIntensity -= Time.deltaTime;
 		cameraShakeIntensity = Mathf.Clamp(cameraShakeIntensity, 0, cameraShakeIntensity);
-		transform.position = targetPosition + GenerateShake();
+		transform.position = Vector3.Lerp(transform.position, targetPosition + GenerateShake(), Time.deltaTime * 10f);
 	}
 
 	private Vector3 GenerateShake()

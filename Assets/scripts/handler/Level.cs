@@ -12,21 +12,35 @@ public class Level : MonoBehaviour
 	//Containers
 	public Transform CheckpointContainer;
 
+	public Transform KeyContainer;
+
 	private Transform AIContainer;
-
-
-
 
 
 	private Transform hover_ghost;
 
 	private Transform ghostContainer;
 
+
+	private int currentKeyIndex;
+
+
+	void OnEnable()
+	{
+		EventManager.OnKeyCollected += OnKeyCollected;
+	}
+	void OnDisable()
+	{
+		EventManager.OnKeyCollected -= OnKeyCollected;
+	}
+
 	public void Init()
 	{
 		CheckpointContainer = transform.GetChild(1).transform;
 
 		checkpointsInLevel = CheckpointContainer.childCount;
+
+		ToggleKeys();
 	}
 
 	public void UpdateLevel()
@@ -40,6 +54,30 @@ public class Level : MonoBehaviour
 		ghostContainer = GameObject.FindGameObjectWithTag("Containers/Ghost").transform;
 
 		hover_ghost.SetParent(ghostContainer);
+	}
+
+	private void OnKeyCollected()
+	{
+		if (KeyContainer == null) { return; }
+
+		currentKeyIndex++;
+
+		currentKeyIndex = Mathf.Clamp(currentKeyIndex, 0, KeyContainer.childCount);
+
+		ToggleKeys();
+	}
+
+	private void ToggleKeys()
+	{
+		if (KeyContainer == null) { return; }
+
+		for (int i = 0; i < KeyContainer.childCount; i++)
+		{
+			KeyContainer.GetChild(i).transform.gameObject.SetActive(false);
+		}
+
+		if (currentKeyIndex > KeyContainer.childCount - 1) { return; }
+		KeyContainer.GetChild(currentKeyIndex).transform.gameObject.SetActive(true);
 	}
 
 	public int CheckpointCount
