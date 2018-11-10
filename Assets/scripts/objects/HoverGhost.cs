@@ -22,7 +22,7 @@ public class HoverGhost : Ghost {
 
 	private float shootingTimer;
 
-	private float shootingCooldown = 3.5f;
+	private float shootingCooldown = 1.5f;
 
 	void Start ()
 	{

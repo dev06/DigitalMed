@@ -5,6 +5,8 @@ public class Checkpoint : MonoBehaviour {
 
 	public ParticleSystem energyDraw;
 
+	public AudioSource sfx;
+
 	private float power = 100f;
 
 	private PlayerMovement movementHandler;
@@ -22,6 +24,8 @@ public class Checkpoint : MonoBehaviour {
 	private ParticleSystem lightingBolt;
 
 	private bool isHovering;
+
+
 
 
 	void OnEnable()
@@ -83,7 +87,7 @@ public class Checkpoint : MonoBehaviour {
 			EventManager.OnCheckpointHit();
 		}
 
-		// Debug.Log(GameplayController.Instance.checkpointsCollected  + " " + LevelController.Instance.CurrentLevel.CheckpointCount);
+		PlaySFX(AppResources.swish_1);
 
 		if (GameplayController.Instance.checkpointsCollected < LevelController.Instance.CurrentLevel.CheckpointCount)
 		{
@@ -177,6 +181,9 @@ public class Checkpoint : MonoBehaviour {
 				EventManager.OnPowerbeamStruck();
 			}
 
+			PlaySFX(AppResources.thunder_zap);
+
+
 			cameraController.FlashBloom();
 
 			//	yield return new WaitForSeconds(.31f);
@@ -225,6 +232,13 @@ public class Checkpoint : MonoBehaviour {
 	{
 		GameplayController.Instance.checkpointsCollected = 0;
 
+		StopCoroutine("IWait");
+		StartCoroutine("IWait");
+	}
+
+	IEnumerator IWait()
+	{
+		yield return new WaitForSeconds(.25f);
 		targetPosition = GetNextLocation();
 	}
 
@@ -232,6 +246,13 @@ public class Checkpoint : MonoBehaviour {
 	{
 		get { return power; }
 		set {this.power = value; }
+	}
+
+
+	void PlaySFX(AudioClip clip)
+	{
+		sfx.clip = clip;
+		sfx.Play();
 	}
 
 }

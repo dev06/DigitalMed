@@ -18,14 +18,14 @@ public class CameraLightning : MonoBehaviour {
 
 	private CameraController cameraController;
 
-	void OnEnable()
-	{
-		EventManager.OnPowerbeamStruck += OnPowerbreamStruck;
-	}
-	void OnDisable()
-	{
-		EventManager.OnPowerbeamStruck -= OnPowerbreamStruck;
-	}
+	// void OnEnable()
+	// {
+	// 	EventManager.OnPowerbeamStruck += OnPowerbreamStruck;
+	// }
+	// void OnDisable()
+	// {
+	// 	EventManager.OnPowerbeamStruck -= OnPowerbreamStruck;
+	// }
 
 
 	void Start ()
@@ -65,6 +65,8 @@ public class CameraLightning : MonoBehaviour {
 
 		float duration = Random.Range(0f, 1f);
 
+		SFXController.Instance.PlayThunder();
+
 		while (timer < duration)
 		{
 			timer += Time.deltaTime;
@@ -86,8 +88,8 @@ public class CameraLightning : MonoBehaviour {
 
 	private void OnPowerbreamStruck()
 	{
-		GetComponent<Animation>().Play();
+		//GetComponent<Animation>().Play();
 
-		powerbeamFlash.Play();
+		//powerbeamFlash.Play();
 	}
 }

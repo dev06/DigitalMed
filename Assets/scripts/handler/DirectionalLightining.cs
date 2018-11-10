@@ -45,9 +45,9 @@ public class DirectionalLightining : MonoBehaviour {
 
 		if (lightningTimer > lightningCooldown)
 		{
-			StopCoroutine("StartLightining");
+			//StopCoroutine("StartLightining");
 
-			StartCoroutine("StartLightining");
+			//StartCoroutine("StartLightining");
 
 			started = true;
 
