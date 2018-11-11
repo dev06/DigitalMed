@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	private bool lockMove;
 
+	private Vector3 velocity;
+
 	void OnEnable()
 	{
 		EventManager.OnCheckpointHit += OnCheckpointHit;
@@ -67,7 +69,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		speed = 0f;
 
-		animator.SetBool("isWalking", Input.GetMouseButton(0) && !lockMove);
+		animator.SetBool("isWalking", Input.GetMouseButton(0) && !lockMove && velocity != Vector3.zero);
 
 		if (lockMove)
 		{
@@ -98,7 +100,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		currentPointer = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
-		Vector3 velocity = currentPointer - pointerDown;
+		velocity = currentPointer - pointerDown;
 
 
 		velocity.Normalize();
@@ -231,6 +233,17 @@ public class PlayerMovement : MonoBehaviour {
 		if (col.gameObject.tag == "Key")
 		{
 			AddKey(col.gameObject.transform.GetComponent<Key>());
+		}
+	}
+
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.gameObject.tag == "ScrollPost")
+		{
+			if (EventManager.OnScrollPostHit != null)
+			{
+				EventManager.OnScrollPostHit();
+			}
 		}
 	}
 

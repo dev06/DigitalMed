@@ -17,7 +17,7 @@ public class SFXController : MonoBehaviour {
 
 	public static SFXController Instance;
 
-	public AudioSource thunder;
+	public AudioSource thunder, sfxOpenGate;
 
 
 	void Awake()
@@ -44,5 +44,10 @@ public class SFXController : MonoBehaviour {
 		AudioClip clipToPlay = Random.Range(0, 2) == 0 ? AppResources.thunder_1 : AppResources.thunder_2;
 		thunder.clip = clipToPlay;
 		thunder.Play();
+	}
+
+	public void SFXOpenGate()
+	{
+		sfxOpenGate.Play();
 	}
 }

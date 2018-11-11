@@ -12,4 +12,9 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnStartHoverIdol;
 	public static Gameplay OnHitGhost;
 	public static Gameplay OnKeyCollected;
+	public static Gameplay OnScrollPostHit;
+
+
+	public delegate void StateChange(State s);
+	public static StateChange OnStateChange;
 }

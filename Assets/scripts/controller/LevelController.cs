@@ -23,8 +23,6 @@ public class LevelController : MonoBehaviour {
 		{
 			DestroyImmediate(gameObject);
 		}
-
-		CURRENT_LEVEL = 0;
 	}
 
 
@@ -57,6 +55,9 @@ public class LevelController : MonoBehaviour {
 		_levelObjects.Init();
 
 		FindObjectOfType<Checkpoint>().Init();
+
+		_levelObjects.ToggleLevelObject(CURRENT_LEVEL);
+
 	}
 
 	void Update ()

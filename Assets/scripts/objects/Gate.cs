@@ -47,6 +47,7 @@ public class Gate : MonoBehaviour {
 		Vector3 currentRotation = transform.eulerAngles;
 		Vector3 targetRotation = currentRotation + new Vector3(0, 0, -90);
 		Vector3 c = currentRotation;
+		SFXController.Instance.SFXOpenGate();
 		while (true)
 		{
 

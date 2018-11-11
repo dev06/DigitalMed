@@ -9,6 +9,7 @@ TagManager:
   - Containers/Ghost
   - Key
   - Gate
+  - ScrollPost
   layers:
   - Default
   - TransparentFX

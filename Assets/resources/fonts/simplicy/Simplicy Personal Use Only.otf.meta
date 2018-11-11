@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: cb32ccf3a14d8414ca4831a3729ef55a
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Simplicy Personal Use Only
+  fontNames:
+  - Simplicy Personal Use Only
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 762fb80cae0df2545be907c69a2b1f9f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

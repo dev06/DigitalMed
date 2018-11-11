@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Checkpoint : MonoBehaviour {
 
-	public ParticleSystem energyDraw;
+	public ParticleSystem energyDraw, idolVanish;
 
 	public AudioSource sfx;
 
@@ -25,6 +25,8 @@ public class Checkpoint : MonoBehaviour {
 
 	private bool isHovering;
 
+	private Vector3 outsideMapPos = new Vector3(0, 100, 0);
+
 
 
 
@@ -32,11 +34,13 @@ public class Checkpoint : MonoBehaviour {
 	{
 		EventManager.OnLevelComplete += OnLevelComplete;
 		EventManager.OnStartHoverIdol += OnStartHoverIdol;
+		EventManager.OnStateChange += OnStateChange;
 	}
 	void OnDisable()
 	{
 		EventManager.OnLevelComplete -= OnLevelComplete;
 		EventManager.OnStartHoverIdol -= OnStartHoverIdol;
+		EventManager.OnStateChange -= OnStateChange;
 	}
 
 	public void Init ()
@@ -47,7 +51,7 @@ public class Checkpoint : MonoBehaviour {
 
 		spawner = FindObjectOfType<SpawnerHandler>();
 
-		targetPosition = GetNextLocation();
+		targetPosition = outsideMapPos;
 
 		ghostContainer = GameObject.FindWithTag("Containers/Ghost").transform;
 
@@ -58,6 +62,19 @@ public class Checkpoint : MonoBehaviour {
 		lineRenderer.enabled = false;
 
 		Toggle(true);
+	}
+
+	public void SetTargetLocation()
+	{
+		targetPosition = GetNextLocation();
+	}
+
+	public void OnStateChange(State s)
+	{
+		if (s == State.Game && LevelController.CURRENT_LEVEL > 0)
+		{
+			targetPosition = GetNextLocation();
+		}
 	}
 
 	private void Toggle(bool b)
@@ -74,7 +91,7 @@ public class Checkpoint : MonoBehaviour {
 
 		if (!isHovering)
 		{
-			transform.position = Vector3.Lerp(transform.position, targetPosition + new Vector3(0, .75f + Mathf.PingPong(Time.time * .5f, 1f) - .5f, 0), Time.deltaTime * 10f);
+			transform.position = Vector3.Lerp(transform.position, targetPosition + new Vector3(0, .75f + Mathf.PingPong(Time.time * .5f, 1f) - .5f, 0), Time.deltaTime * 100f);
 		}
 	}
 
@@ -91,6 +108,8 @@ public class Checkpoint : MonoBehaviour {
 
 		if (GameplayController.Instance.checkpointsCollected < LevelController.Instance.CurrentLevel.CheckpointCount)
 		{
+			idolVanish.transform.position = transform.position;
+			idolVanish.Play();
 			targetPosition = GetNextLocation();
 		}
 
@@ -223,8 +242,6 @@ public class Checkpoint : MonoBehaviour {
 		targetPosition = transform.position;
 
 		isHovering = false;
-
-		Debug.Log("Out");
 
 	}
 

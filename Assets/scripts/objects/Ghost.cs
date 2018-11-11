@@ -19,10 +19,10 @@ public class Ghost : MonoBehaviour {
 	public void Init(List<Vector3> path)
 	{
 		trail = GetComponentInChildren<TrailRenderer>();
-		trail.endWidth = 0f;
+		//trail.endWidth = 0f;
 		SetPath(path);
 		TraversePath();
-		trail.Clear();
+		//trail.Clear();
 		transform.position = path[0];
 		lerpPosition = transform.position;
 	}

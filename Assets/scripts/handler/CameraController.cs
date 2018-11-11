@@ -11,22 +11,33 @@ public class CameraController : MonoBehaviour {
 
 	private float cameraShakeIntensity;
 
+	private float cameraShakeWearoff;
+
 	private Vector3 targetPosition;
 
-	void Start ()
-	{
+	public float idolShakeIntensity = 4f;
+	public float idolShakeWearOff = 14f;
 
-		//defaultPosition = transform.position;
+	void OnEnable()
+	{
+		EventManager.OnCheckpointHit += OnCheckpointHit;
+	}
+	void OnDisable()
+	{
+		EventManager.OnCheckpointHit -= OnCheckpointHit;
 	}
 
-	// Update is called once per frame
+	void OnCheckpointHit()
+	{
+		Shake(idolShakeIntensity, idolShakeWearOff);
+	}
 	void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.L))
 		{
-			Shake(0.4f);
+			Shake(idolShakeIntensity, idolShakeWearOff);
 		}
-		cameraShakeIntensity -= Time.deltaTime;
+		cameraShakeIntensity -= Time.deltaTime * cameraShakeWearoff;
 		cameraShakeIntensity = Mathf.Clamp(cameraShakeIntensity, 0, cameraShakeIntensity);
 		transform.position = Vector3.Lerp(transform.position, targetPosition + GenerateShake(), Time.deltaTime * 10f);
 	}
@@ -36,9 +47,10 @@ public class CameraController : MonoBehaviour {
 		return Random.insideUnitCircle * cameraShakeIntensity;
 	}
 
-	public void Shake(float intensity)
+	public void Shake(float intensity, float shakeWearOff = 1f)
 	{
 		this.cameraShakeIntensity = intensity;
+		this.cameraShakeWearoff = shakeWearOff;
 	}
 
 	public void SetPosition(Vector3 position)
