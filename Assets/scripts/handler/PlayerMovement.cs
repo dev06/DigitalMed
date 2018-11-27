@@ -218,10 +218,14 @@ public class PlayerMovement : MonoBehaviour {
 
 			if (Health <= 0)
 			{
-				if (EventManager.OnGameOver != null)
-				{
-					EventManager.OnGameOver();
-				}
+
+				HidePlayer();
+
+				GameController.Instance.SetState(State.GameOver);
+				// if (EventManager.OnGameOver != null)
+				// {
+				// 	EventManager.OnGameOver();
+				// }
 			}
 
 			if (EventManager.OnHitGhost != null)
@@ -245,6 +249,14 @@ public class PlayerMovement : MonoBehaviour {
 				EventManager.OnScrollPostHit();
 			}
 		}
+	}
+
+	private void HidePlayer()
+	{
+		transform.gameObject.SetActive(false);
+		Camera.main.transform.GetComponent<CameraController>().Shake(8f, 14f);
+		// GetComponent<MeshRenderer>().enabled = false;
+		// GetComponent<BoxCollider>().enabled = false;
 	}
 
 	public void MovePlayerToStartPosition()

@@ -19,12 +19,24 @@ public class SFXController : MonoBehaviour {
 
 	public AudioSource thunder, sfxOpenGate;
 
+	public List<AudioSource> sfxSources = new List<AudioSource>();
 
 	void Awake()
 	{
 		if (Instance == null)
 		{
 			Instance = this;
+		}
+
+		SetSFXVolume(.1f);
+	}
+
+
+	public void SetSFXVolume(float volume)
+	{
+		for (int i = 0; i < sfxSources.Count; i++)
+		{
+			sfxSources[i].volume *= volume;
 		}
 	}
 
@@ -35,7 +47,8 @@ public class SFXController : MonoBehaviour {
 	}
 
 
-	void Update () {
+	void Update ()
+	{
 
 	}
 

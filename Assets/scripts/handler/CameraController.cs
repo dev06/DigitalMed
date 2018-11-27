@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(KeyCode.L))
 		{
-			Shake(idolShakeIntensity, idolShakeWearOff);
+			Shake(8f, 14f);
 		}
 		cameraShakeIntensity -= Time.deltaTime * cameraShakeWearoff;
 		cameraShakeIntensity = Mathf.Clamp(cameraShakeIntensity, 0, cameraShakeIntensity);

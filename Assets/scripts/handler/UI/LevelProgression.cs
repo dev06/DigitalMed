@@ -13,18 +13,30 @@ public class LevelProgression : MonoBehaviour {
 	void OnEnable()
 	{
 		EventManager.OnLevelComplete += OnLevelComplete;
+		EventManager.OnStateChange += OnStateChange;
 	}
 	void OnDisable()
 	{
 		EventManager.OnLevelComplete -= OnLevelComplete;
+		EventManager.OnStateChange -= OnStateChange;
 	}
 
 	void Start ()
 	{
 		foreground = transform.GetChild(1).GetComponent<Image>();
 		idol = FindObjectOfType<Checkpoint>();
-		targetFill = 1f;
+		targetFill = idol.Power / 100f;
 	}
+
+	void OnStateChange(State s)
+	{
+		if (s == State.Game)
+		{
+			targetFill = idol.Power / 100f;
+		}
+	}
+
+
 
 	void Update()
 	{
@@ -33,7 +45,7 @@ public class LevelProgression : MonoBehaviour {
 
 	void OnLevelComplete()
 	{
-		idol.Power -= 25f;
+		idol.Power -= 20f;
 		targetFill = idol.Power / 100f;
 	}
 }

@@ -10,9 +10,12 @@ public enum State
 	Pause,
 	Message,
 	Tutorial,
+	GameOver,
 }
 
 public class GameController : MonoBehaviour {
+
+	public bool DeleteSave;
 
 	public static GameController Instance;
 
@@ -31,8 +34,17 @@ public class GameController : MonoBehaviour {
 		EventManager.OnLevelComplete -= OnLevelComplete;
 	}
 
+	void OnValidate()
+	{
+		if (DeleteSave)
+		{
+			PlayerPrefs.DeleteAll();
+		}
+	}
+
 	void Awake()
 	{
+
 		Application.targetFrameRate = 60;
 
 		if (Instance == null)
@@ -56,6 +68,7 @@ public class GameController : MonoBehaviour {
 	void OnLevelComplete()
 	{
 		StopCoroutine("IDelay");
+
 		StartCoroutine("IDelay");
 	}
 
@@ -64,12 +77,17 @@ public class GameController : MonoBehaviour {
 		yield return new WaitForSeconds(.1f);
 
 		PlayerPrefs.SetInt("CURRENT_LEVEL", LevelController.CURRENT_LEVEL);
+
+		PlayerPrefs.SetFloat("POWER", FindObjectOfType<Checkpoint>().Power);
 	}
 
 	private void Load()
 	{
 		State = State.Menu;
+
 		LevelController.CURRENT_LEVEL = PlayerPrefs.HasKey("CURRENT_LEVEL") ? PlayerPrefs.GetInt("CURRENT_LEVEL") : 0;
+
+		FindObjectOfType<Checkpoint>().Power = PlayerPrefs.HasKey("POWER") ? PlayerPrefs.GetFloat("POWER") : 100;
 	}
 
 	void OnGameOver()
