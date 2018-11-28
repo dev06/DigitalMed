@@ -70,6 +70,11 @@ public class PowerbeamFlash : MonoBehaviour {
 			EventManager.OnLevelComplete();
 		}
 
+		if(LevelController.CURRENT_LEVEL > LevelObjects.LEVELS - 1)
+		{
+			UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+		}
+
 	}
 
 	IEnumerator IDecreaseFade()

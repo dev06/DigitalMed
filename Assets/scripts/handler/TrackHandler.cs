@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrackHandler : MonoBehaviour {
 
+	private static TrackHandler Instance; 
+
 	public List<AudioClip> clips = new List<AudioClip>();
 
 	public AudioSource gameTrack;
@@ -13,14 +15,45 @@ public class TrackHandler : MonoBehaviour {
 	void OnEnable()
 	{
 		EventManager.OnStateChange += OnStateChange;
+		UnityEngine.SceneManagement.SceneManager.sceneLoaded+=OnSceneLoaded; 
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnStateChange -= OnStateChange;
+		UnityEngine.SceneManagement.SceneManager.sceneLoaded-=OnSceneLoaded; 
 	}
-	void Start () {
+
+	void Awake()
+	{
+		if(Instance == null)
+		{
+			Instance = this; 
+		}
+
+		if(Instance != this)
+		{
+			DestroyImmediate(gameObject); 
+		}
+		else
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
+	}
+
+	void Start () 
+	{
 		Play(clips[clipIndex]);
+	}
+
+	void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+	{
+		if(scene.name == "final")
+		{
+			PlayNextTrack(); 
+		}
+		Debug.Log(scene.name);
 	}
 
 	void OnStateChange(State s)
@@ -36,29 +69,49 @@ public class TrackHandler : MonoBehaviour {
 	{
 		if (gameTrack.time >= gameTrack.clip.length)
 		{
-			clipIndex++;
-
-			if (clipIndex > clips.Count - 1)
-			{
-				clipIndex = 0;
-			}
-
-			Play(clips[clipIndex]);
+			PlayNextTrack();
 		}
+	}
+
+	public void PlayNextTrack()
+	{
+		clipIndex++;
+
+		if (clipIndex > clips.Count - 1)
+		{
+			clipIndex = 0;
+		}
+
+		Play(clips[clipIndex]);
 	}
 
 
 
 	public void Play(AudioClip clip)
 	{
-		gameTrack.volume = 0;
+		StopCoroutine("ISwitchTrack"); 
+
+		StartCoroutine("ISwitchTrack", clip); 
+	}
+
+	IEnumerator ISwitchTrack(AudioClip clip)
+	{
+		while(gameTrack.volume > 0)
+		{
+			gameTrack.volume-=Time.deltaTime * .6f; 
+
+			yield return null; 
+		}
+
 		gameTrack.clip = clip;
+		
 		gameTrack.Play();
+		
 		StopCoroutine("IIncrementVolume");
+		
 		StartCoroutine("IIncrementVolume");
 
 		gameTrack.time = Random.Range(5, gameTrack.clip.length / 4);
-
 	}
 
 	IEnumerator IIncrementVolume()
