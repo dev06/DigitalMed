@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	public List<Key> keysCollected = new List<Key>();
 
-	private int health = 3;
+	private int health = 5;
 
 	private Vector2 pointerDown;
 
@@ -91,12 +91,12 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		speed = 8;
 
+		if (GameController.State != State.Game && GameController.State != State.Tutorial) { return; }
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			pointerDown = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 		}
-
-
 
 		currentPointer = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
@@ -106,7 +106,6 @@ public class PlayerMovement : MonoBehaviour {
 		velocity.Normalize();
 
 		Vector3 v = new Vector3(velocity.x, 0, velocity.y);
-
 
 		if (!startedRecording)
 		{
@@ -206,27 +205,9 @@ public class PlayerMovement : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 
-		if (col.gameObject.tag == "Ghost")
+		if (col.gameObject.tag == "Ghost" || col.gameObject.tag == "Bullet")
 		{
-			if (!GameplayController.Instance.CanDie) { return; }
-
-			Health--;
-
-			hurtParticles.Play();
-
-			Health = Mathf.Clamp(health, 0, health);
-
-			if (Health <= 0)
-			{
-
-				HidePlayer();
-
-				GameController.Instance.SetState(State.GameOver);
-				// if (EventManager.OnGameOver != null)
-				// {
-				// 	EventManager.OnGameOver();
-				// }
-			}
+			DoDamage();
 
 			if (EventManager.OnHitGhost != null)
 			{
@@ -255,8 +236,30 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		transform.gameObject.SetActive(false);
 		Camera.main.transform.GetComponent<CameraController>().Shake(8f, 14f);
-		// GetComponent<MeshRenderer>().enabled = false;
-		// GetComponent<BoxCollider>().enabled = false;
+	}
+
+	private void DoDamage()
+	{
+		if (!GameplayController.Instance.CanDie) { return; }
+
+		Health--;
+
+		hurtParticles.Play();
+
+		Health = Mathf.Clamp(health, 0, health);
+
+		if (Health <= 0)
+		{
+			HidePlayer();
+
+			GameController.Instance.SetState(State.GameOver);
+		}
+
+		if (EventManager.OnDamageDelt != null)
+		{
+			EventManager.OnDamageDelt();
+		}
+
 	}
 
 	public void MovePlayerToStartPosition()

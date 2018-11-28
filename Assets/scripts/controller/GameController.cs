@@ -11,6 +11,8 @@ public enum State
 	Message,
 	Tutorial,
 	GameOver,
+	Settings,
+	Credits,
 }
 
 public class GameController : MonoBehaviour {

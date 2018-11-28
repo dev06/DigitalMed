@@ -8,12 +8,12 @@ public class PlayerHealth : MonoBehaviour {
 
 	void OnEnable()
 	{
-		EventManager.OnHitGhost += OnHitGhost;
+		EventManager.OnDamageDelt += OnDamageDelt;
 	}
 
 	void OnDisable()
 	{
-		EventManager.OnHitGhost -= OnHitGhost;
+		EventManager.OnDamageDelt -= OnDamageDelt;
 	}
 
 	void Start ()
@@ -21,7 +21,12 @@ public class PlayerHealth : MonoBehaviour {
 		player = FindObjectOfType<PlayerMovement>();
 	}
 
-	void OnHitGhost()
+	void OnDamageDelt()
+	{
+		UpdateHealthUI();
+	}
+
+	private void UpdateHealthUI()
 	{
 		for (int i = 0; i < transform.childCount; i++)
 		{
@@ -32,12 +37,6 @@ public class PlayerHealth : MonoBehaviour {
 		{
 			transform.GetChild(i).gameObject.SetActive(true);
 		}
-
 	}
-
-	void Update () {
-
-	}
-
 
 }

@@ -15,6 +15,8 @@ public class GameplayController : MonoBehaviour {
 
 	private Transform _ghostContainer;
 
+	public AudioSource bulletShot;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -31,12 +33,14 @@ public class GameplayController : MonoBehaviour {
 	{
 		EventManager.OnCheckpointHit += OnCheckpointHit;
 		EventManager.OnLevelComplete += OnLevelComplete;
+		EventManager.OnBulletShot += OnBulletShot;
 	}
 
 	void OnDisable()
 	{
 		EventManager.OnCheckpointHit -= OnCheckpointHit;
 		EventManager.OnLevelComplete -= OnLevelComplete;
+		EventManager.OnBulletShot -= OnBulletShot;
 	}
 
 	void Start()
@@ -53,6 +57,11 @@ public class GameplayController : MonoBehaviour {
 				EventManager.OnStartHoverIdol();
 			}
 		}
+	}
+
+	void OnBulletShot()
+	{
+		bulletShot.Play();
 	}
 
 	void OnCheckpointHit()

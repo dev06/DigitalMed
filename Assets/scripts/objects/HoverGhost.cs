@@ -18,11 +18,15 @@ public class HoverGhost : Ghost {
 
 	public GameObject bulletPrefab;
 
+	public AudioSource bulletShot;
+
 	private PlayerMovement player;
 
 	private float shootingTimer;
 
-	private float shootingCooldown = 1.5f;
+	private float shootingCooldown = 4f;
+
+	private float timer;
 
 	void Start ()
 	{
@@ -56,6 +60,11 @@ public class HoverGhost : Ghost {
 		if (bulletContainer.transform.childCount <= 0) { return; }
 
 		bulletContainer.transform.GetChild(0).GetComponent<Bullet>().ShootTowards(player.transform.position);
+
+		if (EventManager.OnBulletShot != null)
+		{
+			EventManager.OnBulletShot();
+		}
 	}
 
 
@@ -72,6 +81,16 @@ public class HoverGhost : Ghost {
 
 	private void UpdateShooting()
 	{
+
+		timer += Time.deltaTime;
+
+		if (timer > 4)
+		{
+			shootingCooldown = Random.Range(3f, 5f);
+			Debug.Log("Shooting Cool Down updated -> " + shootingCooldown);
+			timer = 0;
+		}
+
 		shootingTimer += Time.deltaTime;
 
 		if (shootingTimer > shootingCooldown)

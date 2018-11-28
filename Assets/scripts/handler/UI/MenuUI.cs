@@ -57,4 +57,15 @@ public class MenuUI : UserInterface
 		GameController.Instance.SetState(s);
 	}
 
+	public void ActivateSettings()
+	{
+		GameController.Instance.SetState(State.Settings);
+	}
+
+	public void ActiveCredits()
+	{
+		GameController.Instance.SetState(State.Credits);
+
+	}
+
 }

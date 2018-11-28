@@ -13,6 +13,8 @@ public class EventManager : MonoBehaviour {
 	public static Gameplay OnHitGhost;
 	public static Gameplay OnKeyCollected;
 	public static Gameplay OnScrollPostHit;
+	public static Gameplay OnDamageDelt;
+	public static Gameplay OnBulletShot;
 
 
 	public delegate void StateChange(State s);

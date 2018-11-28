@@ -11,10 +11,13 @@ public class Bullet : MonoBehaviour {
 
 	private Transform defaultParent;
 
+	private BulletEffects bulletEffects;
 
 	void Start ()
 	{
 		defaultParent = transform.parent;
+
+		bulletEffects = FindObjectOfType<BulletEffects>();
 
 		Toggle(false);
 	}
@@ -52,6 +55,8 @@ public class Bullet : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Platform")
 		{
+
+			bulletEffects.TriggerParticle(transform.position);
 
 			transform.SetParent(defaultParent);
 

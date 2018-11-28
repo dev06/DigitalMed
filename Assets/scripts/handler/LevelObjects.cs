@@ -22,9 +22,11 @@ public class LevelObjects : MonoBehaviour {
 		ToggleLevelObject(0);
 	}
 
-	public void ToggleLevelObject(int index)
+	IEnumerator IWait(int index)
 	{
-		if (index > levels.Count - 1) { return; }
+		yield return new WaitForEndOfFrame();
+
+		if (index > levels.Count - 1) { yield return null; }
 
 		levels[index].UpdateLevel();
 
@@ -34,6 +36,14 @@ public class LevelObjects : MonoBehaviour {
 		}
 
 		LevelController.Instance.CurrentLevel = levels[index];
+	}
+
+	public void ToggleLevelObject(int index)
+	{
+
+
+		StopCoroutine("IWait");
+		StartCoroutine("IWait", index);
 	}
 
 

@@ -47,6 +47,8 @@ public class Level : MonoBehaviour
 	{
 		AIContainer = transform.GetChild(2).transform;
 
+		Debug.Log(AIContainer.childCount);
+
 		if (AIContainer.childCount <= 0) { return; }
 
 		hover_ghost = AIContainer.GetChild(0);

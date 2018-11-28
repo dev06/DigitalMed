@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -342,7 +342,7 @@ ParticleSystem:
   stopAction: 0
   looping: 1
   prewarm: 1
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5218,9 +5218,9 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 11.06
-  m_SpotAngle: 33.4
+  m_Intensity: 11.92
+  m_Range: 6.51
+  m_SpotAngle: 59.6
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -6390,7 +6390,7 @@ ParticleSystem:
   stopAction: 0
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -11339,18 +11339,14 @@ GameObject:
 --- !u!114 &604954051
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114135122578215452, guid: c4f3b7eea694b4ba89020052a2a1f557,
-    type: 2}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 604954050}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40f059b62d9c0468b91b12a1b8f39eba, type: 3}
+  m_Script: {fileID: 11500000, guid: d04496b5f3a454a4e84a6c5db4510213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyDraw: {fileID: 513285876}
-  idolVanish: {fileID: 0}
-  sfx: {fileID: 0}
 --- !u!65 &604954052
 BoxCollider:
   m_ObjectHideFlags: 0
