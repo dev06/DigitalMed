@@ -242,6 +242,8 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		if (!GameplayController.Instance.CanDie) { return; }
 
+		if (FindObjectOfType<Checkpoint>().IsHovering) { return; }
+
 		Health--;
 
 		hurtParticles.Play();

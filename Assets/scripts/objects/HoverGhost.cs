@@ -70,6 +70,8 @@ public class HoverGhost : Ghost {
 
 	void Update ()
 	{
+		if (GameController.State != State.Game) { return; }
+
 		if (Vector3.Distance(transform.position, player.transform.position) > 20) { return; }
 
 		UpdateShooting();
@@ -87,7 +89,6 @@ public class HoverGhost : Ghost {
 		if (timer > 4)
 		{
 			shootingCooldown = Random.Range(3f, 5f);
-			Debug.Log("Shooting Cool Down updated -> " + shootingCooldown);
 			timer = 0;
 		}
 

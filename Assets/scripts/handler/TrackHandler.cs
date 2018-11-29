@@ -12,7 +12,7 @@ public class TrackHandler : MonoBehaviour {
 
 	public AudioSource gameTrack;
 
-	private int clipIndex;
+	private int clipIndex = 1;
 
 	public List<AudioSource> trackSources = new List<AudioSource>();
 
@@ -43,7 +43,6 @@ public class TrackHandler : MonoBehaviour {
 		{
 			DontDestroyOnLoad(gameObject);
 		}
-
 	}
 
 	void Start ()
@@ -80,24 +79,51 @@ public class TrackHandler : MonoBehaviour {
 			StopCoroutine("IDecrementPitch");
 			StartCoroutine("IDecrementPitch");
 		}
+
+		if (s == State.Pause)
+		{
+			gameTrack.Pause();
+		}
+		else
+		{
+			if (!gameTrack.isPlaying)
+			{
+				gameTrack.Play();
+			}
+		}
+
+
+		// if (s == State.Game || s == State.Menu)
+		// {
+		// 	if (!gameTrack.isPlaying)
+		// 	{
+		// 		gameTrack.Play();
+		// 	}
+		// }
 	}
 
 	void Update()
 	{
-		if (gameTrack.time >= gameTrack.clip.length)
+		//Debug.Log(gameTrack.time + " , " + gameTrack.clip.length );
+
+		if (gameTrack.time >= gameTrack.clip.length - 2)
 		{
 			PlayNextTrack();
 		}
+
 	}
 
 	public void PlayNextTrack()
 	{
+		//Debug.Log("B: " + clipIndex);
 		clipIndex++;
 
 		if (clipIndex > clips.Count - 1)
 		{
 			clipIndex = 0;
 		}
+		//Debug.Log("A: " + clipIndex);
+
 
 		Play(clips[clipIndex]);
 	}
@@ -128,7 +154,9 @@ public class TrackHandler : MonoBehaviour {
 
 		StartCoroutine("IIncrementVolume");
 
-		gameTrack.time = Random.Range(5, gameTrack.clip.length / 4);
+		gameTrack.time = Random.Range(5, gameTrack.clip.length / 5);
+
+		//	gameTrack.time = gameTrack.clip.length - 10;
 	}
 
 	IEnumerator IIncrementVolume()

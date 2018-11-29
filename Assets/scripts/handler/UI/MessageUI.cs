@@ -9,6 +9,7 @@ public class MessageUI : UserInterface {
 	public string scriptMessage_1;
 	public string scriptMessage_2;
 	public string scriptMessage_3;
+	private bool messageRead;
 
 	public override void Init()
 	{
@@ -34,8 +35,9 @@ public class MessageUI : UserInterface {
 
 	void OnScrollPostHit()
 	{
-		GameController.Instance.SetState(state);
+		if (messageRead) { return; }
 
+		GameController.Instance.SetState(state);
 		FindObjectOfType<PlayerMovement>().LockMove = true;
 		StopCoroutine("IWriteScript");
 		StartCoroutine("IWriteScript");
@@ -46,12 +48,18 @@ public class MessageUI : UserInterface {
 		Toggle(false);
 
 		scriptText.text = "";
+
 		FindObjectOfType<PlayerMovement>().LockMove = false;
+
 		StopCoroutine("IWriteScript");
+
 
 		FindObjectOfType<Checkpoint>().SetTargetLocation();
 
 		GameController.Instance.SetState(State.Game);
+
+
+		messageRead = true;
 	}
 
 	void OnStateChange(State s)

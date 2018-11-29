@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class GameUI : UserInterface {
-
-	public Animation hurtFlashAnim;
+public class CreditUI : UserInterface {
 
 	public override void Init()
 	{
 		base.Init();
 	}
-
-
 	public void Start()
 	{
 		Toggle(GameController.State == state);
@@ -19,38 +15,23 @@ public class GameUI : UserInterface {
 
 	void OnEnable ()
 	{
-		EventManager.OnHitGhost += OnHitGhost;
-
 		EventManager.OnStateChange += OnStateChange;
 	}
 
 	void OnDisable ()
 	{
-		EventManager.OnHitGhost -= OnHitGhost;
-
 		EventManager.OnStateChange -= OnStateChange;
 	}
 
 	void OnStateChange(State s)
 	{
 
-		if (s != State.Game)
+		if (s != State.Credits)
 		{
 			Toggle(false);
 			return;
 		}
 
 		Toggle(true);
-	}
-
-	void OnHitGhost()
-	{
-		hurtFlashAnim.Play();
-	}
-
-	public void Pause()
-	{
-		GameController.Instance.SetState(State.Pause);
-		Time.timeScale = 0;
 	}
 }

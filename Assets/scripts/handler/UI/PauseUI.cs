@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class GameUI : UserInterface {
-
-	public Animation hurtFlashAnim;
+public class PauseUI : UserInterface {
 
 	public override void Init()
 	{
 		base.Init();
 	}
-
-
 	public void Start()
 	{
 		Toggle(GameController.State == state);
@@ -19,22 +15,18 @@ public class GameUI : UserInterface {
 
 	void OnEnable ()
 	{
-		EventManager.OnHitGhost += OnHitGhost;
-
 		EventManager.OnStateChange += OnStateChange;
 	}
 
 	void OnDisable ()
 	{
-		EventManager.OnHitGhost -= OnHitGhost;
-
 		EventManager.OnStateChange -= OnStateChange;
 	}
 
 	void OnStateChange(State s)
 	{
 
-		if (s != State.Game)
+		if (s != State.Pause)
 		{
 			Toggle(false);
 			return;
@@ -43,14 +35,18 @@ public class GameUI : UserInterface {
 		Toggle(true);
 	}
 
-	void OnHitGhost()
+	public void Continue()
 	{
-		hurtFlashAnim.Play();
+		Time.timeScale = 1;
+		GameController.Instance.SetState(State.Game);
 	}
 
-	public void Pause()
+	public void Menu()
 	{
-		GameController.Instance.SetState(State.Pause);
-		Time.timeScale = 0;
+		Time.timeScale = 1;
+		if (EventManager.OnGameOver != null)
+		{
+			EventManager.OnGameOver();
+		}
 	}
 }

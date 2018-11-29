@@ -265,6 +265,11 @@ public class Checkpoint : MonoBehaviour {
 		set {this.power = value; }
 	}
 
+	public bool IsHovering
+	{
+		get {return isHovering;}
+	}
+
 
 	void PlaySFX(AudioClip clip)
 	{
