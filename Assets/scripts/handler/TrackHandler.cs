@@ -92,6 +92,12 @@ public class TrackHandler : MonoBehaviour {
 			}
 		}
 
+		if(s == State.Game)
+		{
+			StopCoroutine("IIncrementPitch"); 
+			StartCoroutine("IIncrementPitch");
+		}
+
 
 		// if (s == State.Game || s == State.Menu)
 		// {

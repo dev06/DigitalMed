@@ -15674,7 +15674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723d56acadc4d284a9fff239df1990d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanDie: 0
+  CanDie: 1
   checkpointsCollected: 0
   collectedAllCheckpoints: 0
   bulletShot: {fileID: 735390761}
@@ -27265,7 +27265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerbeamFlash: {fileID: 1012045102}
-  defaultIntensity: 0.6
+  defaultIntensity: 0.2
 --- !u!111 &1763849216
 Animation:
   m_ObjectHideFlags: 0
