@@ -240,9 +240,11 @@ public class PlayerMovement : MonoBehaviour {
 
 	private void DoDamage()
 	{
-		if (!GameplayController.Instance.CanDie) { return; }
+		//if (!GameplayController.Instance.CanDie) { return; }
 
 		if (FindObjectOfType<Checkpoint>().IsHovering) { return; }
+
+		if (DebugMode.ACTIVE) { return; }
 
 		Health--;
 
