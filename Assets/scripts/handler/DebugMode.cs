@@ -38,4 +38,11 @@ public class DebugMode : MonoBehaviour {
 			EventManager.OnStartHoverIdol();
 		}
 	}
+
+	public void DeleteSave()
+	{
+		PlayerPrefs.DeleteAll(); 
+		UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+	}
+
 }
